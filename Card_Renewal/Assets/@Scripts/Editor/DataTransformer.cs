@@ -33,8 +33,8 @@ public class DataTransformer : EditorWindow
     [MenuItem("Tools/ParseExcel %#K")]
     public static void ParseExcelDataToJson()
     {
-        // Example
-        ParseExcelDataToJson<ChildDataLoader, ChildData>("Child");
+        ParseExcelDataToJson<CardDataLoader, CardData>("Card");
+        ParseExcelDataToJson<TeamDataLoader, TeamData>("Team");
 
         Debug.Log("DataTransformer Completed");
     }

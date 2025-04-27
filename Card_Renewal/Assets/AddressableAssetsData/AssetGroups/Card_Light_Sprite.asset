@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Card_Light_Sprite
+  m_EditorClassIdentifier: 
+  m_GroupName: Card_Light_Sprite
+  m_GUID: dbb3b765af6ed6d4082f030717c78742
+  m_SerializeEntries:
+  - m_GUID: 289222d0635d8684280c6acec039ec59
+    m_Address: Spade_K_13.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ee35550ab9112145bf7f2e329bdb691
+    m_Address: Heart_K_13.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32463290e03b247439782203ac565970
+    m_Address: Diamond_J_11.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3c82e22bfa4e4f24692dd7ce521c24ca
+    m_Address: Heart_Q_12.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54f5ccf99defa254eb1bd58b55cc8bca
+    m_Address: Diamond_Q_12.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 62c5fc56ab3a8c746ba4a695dfbaa7b0
+    m_Address: Spade_J_11.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 69a4d2fa6e4467b4bab7f8e8a14103f0
+    m_Address: Diamond_K_13.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76f7ef7bcbacede4ab3d69c6d9a009b2
+    m_Address: Club_Q_12.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82efb19118fefc04091ab4010dcd004b
+    m_Address: Spade_Q_12.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 983e9c4ba8176094fbde899009ba2535
+    m_Address: Club_J_11.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4f14059d38fc3744af8cdf71f4503a2
+    m_Address: Joker_Red.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf062147708dec64191092cd4eea5eaf
+    m_Address: Joker_Black.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d24d2ca7103bebf4b90f087bad8041ab
+    m_Address: Club_K_13.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ecd30cbafcc70884fb7ece2f52e13d34
+    m_Address: Heart_J_11.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 048622a9cdb6b5e4499f42640812c0b8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 456f042a72a6b4c4bad17f0382288550, type: 2}
+    - {fileID: 11400000, guid: 97884500024c93244acebe2fa27d855b, type: 2}

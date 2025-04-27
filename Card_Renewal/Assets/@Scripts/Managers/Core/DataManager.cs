@@ -13,13 +13,13 @@ public interface ILoader<Key, Value>
 
 public class DataManager
 {
-    // Example
-    public Dictionary<int, Data.ChildData> ChildDataDic { get; private set; } = new Dictionary<int, Data.ChildData>();
+    public Dictionary<int, Data.CardData> CardDic { get; private set; } = new Dictionary<int, Data.CardData>();
+    public Dictionary<int, Data.TeamData> TeamDic { get; private set; } = new Dictionary<int, Data.TeamData>();
 
     public void Init()
     {
-        // Example
-        ChildDataDic = LoadJson<Data.ChildDataLoader, int, Data.ChildData>("ChildData").MakeDict();
+        CardDic = LoadJson<Data.CardDataLoader, int, Data.CardData>("CardData").MakeDict();
+        TeamDic = LoadJson<Data.TeamDataLoader, int, Data.TeamData>("TeamData").MakeDict();
     }
 
     private Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>

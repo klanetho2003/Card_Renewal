@@ -86,8 +86,8 @@ public abstract class UI_Base : InitBase
         }
     }
 
-    public static void BindEvent(GameObject go, Action<PointerEventData> action1, Action<PointerEventData> action2, Action<PointerEventData> action3,
-        UIEvent type1 = UIEvent.Click, UIEvent type2 = UIEvent.None, UIEvent type3 = UIEvent.None)
+    public static void BindEvent(GameObject go, Action<PointerEventData> action1, Action<PointerEventData> action2, Action<PointerEventData> action3, Action<PointerEventData> action4,
+        UIEvent type1 = UIEvent.Click, UIEvent type2 = UIEvent.None, UIEvent type3 = UIEvent.None, UIEvent type4 = UIEvent.None)
     {
 
         UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
@@ -149,6 +149,26 @@ public abstract class UI_Base : InitBase
             case UIEvent.Drag:
                 evt.OnDragHandler -= action3;
                 evt.OnDragHandler += action3;
+                break;
+        }
+
+        switch (type4)
+        {
+            case UIEvent.Click:
+                evt.OnClickHandler -= action4;
+                evt.OnClickHandler += action4;
+                break;
+            case UIEvent.PointerDown:
+                evt.OnPointerDownHandler -= action4;
+                evt.OnPointerDownHandler += action4;
+                break;
+            case UIEvent.PointerUp:
+                evt.OnPointerUpHandler -= action4;
+                evt.OnPointerUpHandler += action4;
+                break;
+            case UIEvent.Drag:
+                evt.OnDragHandler -= action4;
+                evt.OnDragHandler += action4;
                 break;
         }
     }

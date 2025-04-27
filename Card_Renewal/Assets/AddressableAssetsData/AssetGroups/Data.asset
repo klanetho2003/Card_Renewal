@@ -15,8 +15,14 @@ MonoBehaviour:
   m_GroupName: Data
   m_GUID: b7d01224da6bf96468763cd87eecc497
   m_SerializeEntries:
-  - m_GUID: 1dca896aef8ef32429c82ce6d24f6087
-    m_Address: ChildData
+  - m_GUID: 4562585922a3642498a4ca18fa5799eb
+    m_Address: CardData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cab8e5a5025985548ae83a75623d81b8
+    m_Address: TeamData
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

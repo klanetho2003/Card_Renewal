@@ -6,8 +6,7 @@ using static Define;
 
 public class ObjectManager
 {
-    public BaseController TempObject { get; private set; }
-    public HashSet<BaseController> TempObejects { get; } = new HashSet<BaseController>();
+    public HashSet<Card> Cards { get; } = new HashSet<Card>();
 
     public GameObject SpawnGameObject(Vector3 position, string prefabName)
     {
@@ -26,17 +25,11 @@ public class ObjectManager
 
         BaseController obj = go.GetComponent<BaseController>();
 
-        if (obj.ObjectType == EObjectType.None)
+        if (obj.ObjectType == EObjectType.Card)
         {
-            BaseController tempObject = go.GetComponent<BaseController>();
-            TempObject = tempObject;
-            // TempObject.SetInfo(templateID);
-        }
-        else if (obj.ObjectType == EObjectType.TempType)
-        {
-            BaseController temp = go.GetComponent<BaseController>();
-            TempObejects.Add(temp);
-            // temp.SetInfo(templateID);
+            Card card = go.GetComponent<Card>();
+            Cards.Add(card);
+            card.SetInfo(templateID);
         }
 
         return obj as T;
@@ -50,15 +43,10 @@ public class ObjectManager
 
         EObjectType objectType = obj.ObjectType;
 
-        if (obj.ObjectType == EObjectType.None)
+        if (obj.ObjectType == EObjectType.Card)
         {
-            BaseController player = obj.GetComponent<BaseController>();
-            TempObject = null;
-        }
-        else if (obj.ObjectType == EObjectType.TempType)
-        {
-            BaseController temp = obj.GetComponent<BaseController>();
-            TempObejects.Remove(temp);
+            Card temp = obj.GetComponent<Card>();
+            Cards.Remove(temp);
         }
 
         // To Pool
@@ -73,9 +61,9 @@ public class ObjectManager
 
     public void DespawnAllTemps()
     {
-        var temps = TempObejects.ToList();
+        var cards = Cards.ToList();
 
-        foreach (var temp in temps)
-            Managers.Object.Despawn(temp);
+        foreach (var card in cards)
+            Managers.Object.Despawn(card);
     }
 }

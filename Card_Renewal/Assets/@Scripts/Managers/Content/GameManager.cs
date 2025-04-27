@@ -16,13 +16,13 @@ public class GameSaveData
     // ..
 
     // List
-    public List<ChildSaveData> Children = new List<ChildSaveData>(); // Child를 Item으로 가정
+    public List<CardSaveData> Cards = new List<CardSaveData>(); // Child를 Item으로 가정
 
     public int DbIdGenerator = 1;
 }
 
 [Serializable]
-public class ChildSaveData
+public class CardSaveData
 {
     public int TemplateDataId = 0;
     public int SaveValue_1 = 1;
@@ -40,6 +40,9 @@ public enum TempOwningState
 
 public class GameManager
 {
+    public ETeamColor PlayerTeamColor { get; set; } = ETeamColor.Red;
+
+    #region Data - Init, Save, Load
     GameSaveData _saveData = new GameSaveData();
     public GameSaveData SaveData { get { return _saveData; } set { _saveData = value; } }
 
@@ -58,15 +61,15 @@ public class GameManager
             return;
 
         // To Do : 패치에 Data들을 대처할 수 있도록 수정 -> Version 정보를 참조
-        var children = Managers.Data.ChildDataDic.Values.ToList();
-        foreach (ChildData child in children)
+        var cards = Managers.Data.CardDic.Values.ToList();
+        foreach (CardData card in cards)
         {
-            ChildSaveData childSaveData = new ChildSaveData()
+            CardSaveData cardSaveData = new CardSaveData()
             {
-                TemplateDataId = child.TemplateId,
+                TemplateDataId = card.TemplateId,
             };
 
-            SaveData.Children.Add(childSaveData);
+            SaveData.Cards.Add(cardSaveData);
         }
     }
 
@@ -106,4 +109,5 @@ public class GameManager
         Debug.Log($"Save Game Loaded : {Path}");
         return true;
     }
+    #endregion
 }

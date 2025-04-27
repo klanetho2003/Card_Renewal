@@ -1,0 +1,316 @@
+﻿{
+  "cards": [
+    {
+      "TemplateId": 11,
+      "CardShape": 12,
+      "CardNUm": 1,
+      "FrontSpriteName": "to do"
+    },
+    {
+      "TemplateId": 12,
+      "CardShape": 12,
+      "CardNUm": 2,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 13,
+      "CardShape": 12,
+      "CardNUm": 3,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 14,
+      "CardShape": 12,
+      "CardNUm": 4,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 15,
+      "CardShape": 12,
+      "CardNUm": 5,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 16,
+      "CardShape": 12,
+      "CardNUm": 6,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 17,
+      "CardShape": 12,
+      "CardNUm": 7,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 18,
+      "CardShape": 12,
+      "CardNUm": 8,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 19,
+      "CardShape": 12,
+      "CardNUm": 9,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 20,
+      "CardShape": 12,
+      "CardNUm": 10,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 21,
+      "CardShape": 12,
+      "CardNUm": 11,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 22,
+      "CardShape": 12,
+      "CardNUm": 12,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 23,
+      "CardShape": 12,
+      "CardNUm": 13,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 31,
+      "CardShape": 34,
+      "CardNUm": 1,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 32,
+      "CardShape": 34,
+      "CardNUm": 2,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 33,
+      "CardShape": 34,
+      "CardNUm": 3,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 34,
+      "CardShape": 34,
+      "CardNUm": 4,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 35,
+      "CardShape": 34,
+      "CardNUm": 5,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 36,
+      "CardShape": 34,
+      "CardNUm": 6,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 37,
+      "CardShape": 34,
+      "CardNUm": 7,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 38,
+      "CardShape": 34,
+      "CardNUm": 8,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 39,
+      "CardShape": 34,
+      "CardNUm": 9,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 40,
+      "CardShape": 34,
+      "CardNUm": 10,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 41,
+      "CardShape": 34,
+      "CardNUm": 11,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 42,
+      "CardShape": 34,
+      "CardNUm": 12,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 43,
+      "CardShape": 34,
+      "CardNUm": 13,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 51,
+      "CardShape": 56,
+      "CardNUm": 1,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 52,
+      "CardShape": 56,
+      "CardNUm": 2,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 53,
+      "CardShape": 56,
+      "CardNUm": 3,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 54,
+      "CardShape": 56,
+      "CardNUm": 4,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 55,
+      "CardShape": 56,
+      "CardNUm": 5,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 56,
+      "CardShape": 56,
+      "CardNUm": 6,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 57,
+      "CardShape": 56,
+      "CardNUm": 7,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 58,
+      "CardShape": 56,
+      "CardNUm": 8,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 59,
+      "CardShape": 56,
+      "CardNUm": 9,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 60,
+      "CardShape": 56,
+      "CardNUm": 10,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 61,
+      "CardShape": 56,
+      "CardNUm": 11,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 62,
+      "CardShape": 56,
+      "CardNUm": 12,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 63,
+      "CardShape": 56,
+      "CardNUm": 13,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 71,
+      "CardShape": 78,
+      "CardNUm": 1,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 72,
+      "CardShape": 78,
+      "CardNUm": 2,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 73,
+      "CardShape": 78,
+      "CardNUm": 3,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 74,
+      "CardShape": 78,
+      "CardNUm": 4,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 75,
+      "CardShape": 78,
+      "CardNUm": 5,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 76,
+      "CardShape": 78,
+      "CardNUm": 6,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 77,
+      "CardShape": 78,
+      "CardNUm": 7,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 78,
+      "CardShape": 78,
+      "CardNUm": 8,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 79,
+      "CardShape": 78,
+      "CardNUm": 9,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 80,
+      "CardShape": 78,
+      "CardNUm": 10,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 81,
+      "CardShape": 78,
+      "CardNUm": 11,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 82,
+      "CardShape": 78,
+      "CardNUm": 12,
+      "FrontSpriteName": null
+    },
+    {
+      "TemplateId": 83,
+      "CardShape": 78,
+      "CardNUm": 13,
+      "FrontSpriteName": null
+    }
+  ]
+}

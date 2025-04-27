@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Card_Back
+  m_EditorClassIdentifier: 
+  m_GroupName: Card_Back
+  m_GUID: 5b42a3f24af37df42aea2128d3c80372
+  m_SerializeEntries:
+  - m_GUID: 453a009bf7ec6494f8837b3843d78a75
+    m_Address: Red_BlackFrame.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 048622a9cdb6b5e4499f42640812c0b8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 3687874d1b51f144f8df09b4daba1e72, type: 2}
+    - {fileID: 11400000, guid: ef4ba22e516220a4ab9c3f0b868805f1, type: 2}

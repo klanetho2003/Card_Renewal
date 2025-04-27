@@ -36,10 +36,51 @@ public class Define
     }
     #endregion
 
+    public enum ECardNum
+    {
+        None,
+        One = 1,
+        Two = 2,
+        Three = 3,
+        Four = 4,
+        Five = 5,
+        Six = 6,
+        Seven = 7,
+        Eight = 8,
+        Nine = 9,
+        Ten = 10,
+        J = 11,
+        Q = 12,
+        K = 13,
+
+        Joker = 20
+    }
+
+    public enum ECardShape
+    {
+        None,
+        Club = 12,
+        Diamond = 34,
+        Heart = 56,
+        Spade = 78,
+    }
+
+    public enum ETeamColor
+    {
+        None,
+        Red = 1,
+    }
+
+    public enum ECardState
+    {
+        None,
+        Idle,
+    }
+
     public enum EObjectType
     {
         None,
-        TempType,
+        Card,
     }
 
     public enum ELayer
@@ -50,5 +91,14 @@ public class Define
         Dummy1 = 3,
         Water = 4,
         UI = 5,
+    }
+
+    // Hard
+    public const int TempCard_Heart_Q = 62;
+
+    public static class SortingLayers
+    {
+        public const int Card_Layer_Order = 300;
+        public const string Card_Layer_Name = "Card";
     }
 }
