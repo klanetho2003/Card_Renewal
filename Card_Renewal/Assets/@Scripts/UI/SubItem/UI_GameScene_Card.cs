@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static Define;
+using static UnityEditor.Progress;
 
 public class UI_GameScene_Card : UI_Base
 {
@@ -14,37 +15,41 @@ public class UI_GameScene_Card : UI_Base
     enum Images
     {
         CardButton,
+        CardImage,
     }
     #endregion
 
-    private RectTransform _rectTransform;
-    Card _card;
-    CardSlot _slot;
-    Vector3 _dragOffset;
+    public RectTransform RectTransform { get; private set; }
+    public Card Card {  get; private set; }
+
+    public Vector3 OriginalPosition { get; private set; }
 
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
 
-        _rectTransform = GetComponent<RectTransform>();
+        RectTransform = GetComponent<RectTransform>();
 
         BindButtons(typeof(Buttons));
         BindImages(typeof(Images));
 
-        GetButton((int)Buttons.CardButton).gameObject.BindEvent(OnClickCardButton, OnBeginDragCardButton, OnDragCardButton, OnUpCardButton, UIEvent.Click, UIEvent.PointerDown, UIEvent.Drag, UIEvent.PointerUp);
+        GetButton((int)Buttons.CardButton).gameObject.BindEvent
+            (
+            OnClickCardButton,  OnBeginDragCardButton,  OnDragCardButton,   OnUpCardButton,
+            UIEvent.Click,      UIEvent.PointerDown,    UIEvent.Drag,       UIEvent.PointerUp
+            );
 
         return true;
     }
 
-    public void SetInfo(Card card, CardSlot slot)
+    public void SetInfo(Card card)
     {
         transform.localScale = Vector3.one;
 
-        _card = card;
-        _slot = slot;
+        Card = card;
 
-        transform.position = slot.RectPosition;
+        GetImage((int)Images.CardImage).sprite = Managers.Resource.Load<Sprite>(card.CardData.FrontSpriteName);
 
         card.OnStateChanged += OnStateChanged;
     }
@@ -56,19 +61,21 @@ public class UI_GameScene_Card : UI_Base
 
     void OnClickCardButton(PointerEventData evt)
     {
-        // Is Drag
-        if (_originalPosition != _rectTransform.position)
+        if (IsChangePosition())
             return;
+
+        Card.CardState = ECardState.Idle; // To Do : Select State
 
         Debug.Log("On Click");
     }
 
-    private Vector3 _originalPosition;
+    Vector3 _mouseStartPos;
     void OnBeginDragCardButton(PointerEventData evt)
     {
-        _originalPosition = _rectTransform.position;
+        OriginalPosition = RectTransform.position;
+        _mouseStartPos = evt.position;
 
-        _card.CardState = ECardState.Dragging;
+        Card.CardState = ECardState.Dragging;
 
         Debug.Log("On Begin Drag");
     }
@@ -77,46 +84,40 @@ public class UI_GameScene_Card : UI_Base
     {
         GetImage((int)Images.CardButton).raycastTarget = false;
 
-        Vector2 touchPosition = evt.position;
-        _rectTransform.position = touchPosition;
+        Vector3 touchPosition = evt.position;
+        RectTransform.position = OriginalPosition + (touchPosition - _mouseStartPos);
 
         Debug.Log($"On Drag");
     }
 
     void OnUpCardButton(PointerEventData evt)
     {
-        GetImage((int)Images.CardButton).raycastTarget = true;
-
-        // Click
-        if (_originalPosition == _rectTransform.position)
-            return;
-
-        _card.CardState = ECardState.Idle;
-
-        Vector2 mySize = _rectTransform.sizeDelta;
-        Vector3 worldCtr = _rectTransform.TransformPoint(_rectTransform.rect.center);
-
-        // 최적화 필요
-        var target = Managers.LayoutManger.Slots
-            .FirstOrDefault(s => s.GetBounds(mySize).Contains((Vector2)worldCtr));
-
-        if (target != null && target.SlotIndex != _slot.SlotIndex)
+        if (IsChangePosition())
         {
-            Managers.CardManager.SwapCards(_slot.SlotIndex, target.SlotIndex);
-            _slot = target;
+            if (!TrySwap(evt))
+                RectTransform.position = OriginalPosition; // 실패 시 복귀
+
+            Debug.Log("On Up Button");
         }
 
-        _rectTransform.anchoredPosition = _slot.RectPosition;
-
-        Debug.Log("On Up Button");
+        Card.CardState = ECardState.Idle;
+        GetImage((int)Images.CardButton).raycastTarget = true;
     }
 
-    public void SetPosition(Vector3 pos)
+    private bool TrySwap(PointerEventData evt)
     {
-        transform.position = pos;
+        if (evt.pointerEnter == null) return false;
+
+        var other = evt.pointerEnter.GetComponentInParent<UI_GameScene_Card>();
+        if (other == null) return false;
+
+        Managers.CardManager.SwapCards(this, other);
+
+        return true;
     }
-    public void UpdateOriginalSlot(CardSlot slot)
+
+    bool IsChangePosition()
     {
-        _slot = slot;
+        return OriginalPosition != RectTransform.position;
     }
 }

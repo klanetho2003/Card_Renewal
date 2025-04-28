@@ -13,20 +13,20 @@ public class GameScene : BaseScene
         SceneType = EScene.GameScene;
 
         // To Do
+        SetCards(2, TempCard_Heart_Q);
+        SetCards(3, TempCard_Spade_Q);
+
         UI_GameScene gameScene = Managers.UI.ShowSceneUI<UI_GameScene>();
-
-        SetCards(5);
-
         gameScene.Setinfo();
 
         return true;
     }
 
-    void SetCards(int cardsCount)
+    void SetCards(int cardsCount, int templateId)
     {
         for (int i = 0; i < cardsCount; i++)
         {
-            Managers.CardManager.AddCard(TempCard_Heart_Q);
+            Managers.CardManager.AddCard(templateId);
         }
     }
 

@@ -11,12 +11,10 @@ public class Managers : MonoBehaviour
     GameManager _game = new GameManager();
     ObjectManager _obj = new ObjectManager();
     CardManager _cardManager = new CardManager();
-    LayoutManger _layoutManger = new LayoutManger();
 
     public static GameManager Game { get { return Instance?._game; } }
     public static ObjectManager Object { get { return Instance?._obj; } }
     public static CardManager CardManager { get { return Instance?._cardManager; } }
-    public static LayoutManger LayoutManger { get { return Instance?._layoutManger; } }
     #endregion
 
     #region Cores

@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using static Define;
 using static UnityEditor.Progress;
 
@@ -46,6 +47,7 @@ public class UI_GameScene : UI_Scene
         {
             UI_GameScene_Card card = Managers.UI.MakeSubItem<UI_GameScene_Card>(cardsParent.transform);
             _cards.Add(card);
+            card.gameObject.SetActive(false);
         }
 
         #endregion
@@ -66,21 +68,16 @@ public class UI_GameScene : UI_Scene
 
     void Refresh_Item(List<UI_GameScene_Card> uiCardList, List<Card> CardList)
     {
-        Managers.LayoutManger.Slots.Clear();
-
         for (int i = 0; i < uiCardList.Count; i++)
         {
             if (i < CardList.Count)
             {
                 Card card = CardList[i];
                 var cardUI = uiCardList[i];
-                cardUI.gameObject.SetActive(true);
-
-                // Slot Generate
-                CardSlot slot = Managers.LayoutManger.GenerateSlot(cardUI, i);
 
                 // Card UI SetInfo
-                cardUI.SetInfo(card, slot);
+                cardUI.SetInfo(card);
+                cardUI.gameObject.SetActive(true);
             }
             else
             {

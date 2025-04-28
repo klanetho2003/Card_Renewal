@@ -96,6 +96,7 @@ public class Define
 
     // Hard
     public const int TempCard_Heart_Q = 62;
+    public const int TempCard_Spade_Q = 82;
 
     public static class SortingLayers
     {

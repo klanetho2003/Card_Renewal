@@ -226,7 +226,7 @@
       "TemplateId": 62,
       "CardShape": 56,
       "CardNUm": 12,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_Q_12.sprite"
     },
     {
       "TemplateId": 63,
@@ -304,7 +304,7 @@
       "TemplateId": 82,
       "CardShape": 78,
       "CardNUm": 12,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_Q_12.sprite"
     },
     {
       "TemplateId": 83,
