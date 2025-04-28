@@ -25,7 +25,7 @@ public class GameScene : BaseScene
     {
         for (int i = 0; i < cardsCount; i++)
         {
-            Managers.Object.Spawn<Card>(Vector3.zero, TempCard_Heart_Q);
+            // Managers.Object.Spawn<Card>(Vector3.zero, TempCard_Heart_Q);
         }
     }
 

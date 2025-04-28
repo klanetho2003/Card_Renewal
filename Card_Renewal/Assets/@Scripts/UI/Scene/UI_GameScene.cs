@@ -59,7 +59,7 @@ public class UI_GameScene : UI_Scene
 
     void Refresh()
     {
-        Refresh_Item(_cards, Managers.Object.Cards.ToList());
+        // Refresh_Item(_cards, Managers.Object.Cards.ToList());
     }
 
     void Refresh_Item(List<UI_GameScene_Card> uiCardList, List<Card> CardList)
