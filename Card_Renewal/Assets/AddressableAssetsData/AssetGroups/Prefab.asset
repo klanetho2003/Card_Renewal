@@ -21,12 +21,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7c654056d8835784ebf2112ac7a51528
-    m_Address: Card
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8a41968923ad8a8488c252426e1acb8d
     m_Address: UI_GameScene_Card
     m_ReadOnly: 0

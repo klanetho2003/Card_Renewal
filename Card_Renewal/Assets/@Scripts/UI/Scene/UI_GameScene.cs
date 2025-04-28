@@ -34,6 +34,8 @@ public class UI_GameScene : UI_Scene
 
         #region Event Binding
         // GetButton((int)Buttons.ItemsListButton).gameObject.BindEvent(OnClickItemsListButton);
+
+        Managers.CardManager.OnChangeCardCount += Refresh;
         #endregion
 
         #region Instantiate Pre & Cache
@@ -59,18 +61,26 @@ public class UI_GameScene : UI_Scene
 
     void Refresh()
     {
-        // Refresh_Item(_cards, Managers.Object.Cards.ToList());
+        Refresh_Item(_cards, Managers.CardManager.Cards);
     }
 
     void Refresh_Item(List<UI_GameScene_Card> uiCardList, List<Card> CardList)
     {
+        Managers.LayoutManger.Slots.Clear();
+
         for (int i = 0; i < uiCardList.Count; i++)
         {
             if (i < CardList.Count)
             {
-                // ItemSaveData item = inventoryItemList[i].SaveData;
-                uiCardList[i].SetInfo(/*item.InstanceId, this*/);
-                uiCardList[i].gameObject.SetActive(true);
+                Card card = CardList[i];
+                var cardUI = uiCardList[i];
+                cardUI.gameObject.SetActive(true);
+
+                // Slot Generate
+                CardSlot slot = Managers.LayoutManger.GenerateSlot(cardUI, i);
+
+                // Card UI SetInfo
+                cardUI.SetInfo(card, slot);
             }
             else
             {

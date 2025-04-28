@@ -13,9 +13,10 @@ public class GameScene : BaseScene
         SceneType = EScene.GameScene;
 
         // To Do
+        UI_GameScene gameScene = Managers.UI.ShowSceneUI<UI_GameScene>();
+
         SetCards(5);
 
-        UI_GameScene gameScene = Managers.UI.ShowSceneUI<UI_GameScene>();
         gameScene.Setinfo();
 
         return true;
@@ -25,11 +26,9 @@ public class GameScene : BaseScene
     {
         for (int i = 0; i < cardsCount; i++)
         {
-            // Managers.Object.Spawn<Card>(Vector3.zero, TempCard_Heart_Q);
+            Managers.CardManager.AddCard(TempCard_Heart_Q);
         }
     }
-
-
 
     public override void Clear()
     {

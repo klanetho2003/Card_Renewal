@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8499493289065869747}
   - component: {fileID: 92166846924174118}
   - component: {fileID: 2123661391103079229}
-  - component: {fileID: 7394556165684513196}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -138,15 +137,3 @@ SortingGroup:
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_SortAtRoot: 0
---- !u!114 &7394556165684513196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2773071451136339349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b13d76ec7362e341960aa02ad899160, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

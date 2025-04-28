@@ -70,6 +70,16 @@ public static class Util
         return parseColor;
     }
 
+    public static Vector3 TransformPoint(Vector3 local, Vector3 refPos, Quaternion refRot, Vector3 refScale)
+    {
+        // 1) 스케일
+        Vector3 scaled = new Vector3(local.x * refScale.x, local.y * refScale.y, local.z * refScale.z);
+        // 2) 회전
+        Vector3 rotated = refRot * scaled;
+        // 3) 이동
+        return refPos + rotated;
+    }
+
     // 갓챠
     public static T RandomElementByWeight<T>(this IEnumerable<T> sequence, Func<T, float> weightSelector)
     {

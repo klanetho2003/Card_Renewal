@@ -9,22 +9,21 @@ using static Define;
 
 public class CardSlot
 {
-    Card _owner;
     public int SlotIndex { get; }
-    public Vector3 WorldPosition { get; }
+    public Vector2 RectPosition { get; }
 
-    public CardSlot(Card owner, int slotIdx)
+    public CardSlot(int slotIdx, Vector2 pos)
     {
-        _owner = owner;
-
         SlotIndex = slotIdx;
+
+        RectPosition = pos;
     }
 
     // 외부에서 size를 받아 영역 반환
     public Rect GetBounds(Vector2 size)
     {
         Vector2 half = size * 0.5f;
-        Vector2 min = (Vector2)WorldPosition - half;
+        Vector2 min = RectPosition - half;
         return new Rect(min, size);
     }
 }
@@ -40,6 +39,7 @@ public class Card
     public ETeamColor TeamColor { get; private set; } = ETeamColor.None;
 
     public event Action<ECardState> OnStateChanged;
+
     public ECardState _cardState = ECardState.None;
     public ECardState CardState
     {
