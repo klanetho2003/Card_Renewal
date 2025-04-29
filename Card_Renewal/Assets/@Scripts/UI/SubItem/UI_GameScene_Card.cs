@@ -22,7 +22,7 @@ public class UI_GameScene_Card : UI_Base
     public RectTransform RectTransform { get; private set; }
     public Card Card {  get; private set; }
 
-    public Vector3 OriginalPosition { get; private set; }
+    public Vector3 OriginalPosition { get; set; }
 
     public override bool Init()
     {
@@ -59,6 +59,24 @@ public class UI_GameScene_Card : UI_Base
         // To Do
     }
 
+    private bool TrySwap(PointerEventData evt, bool isBoth)
+    {
+        if (evt.pointerEnter == null) return false;
+
+        var other = evt.pointerEnter.GetComponentInParent<UI_GameScene_Card>();
+        if (other == null) return false;
+
+        Managers.CardManager.SwapCards(this, other, isBoth);
+
+        return true;
+    }
+
+    bool IsChangePosition()
+    {
+        return OriginalPosition != RectTransform.position;
+    }
+
+    #region Event Handle
     void OnClickCardButton(PointerEventData evt)
     {
         if (IsChangePosition())
@@ -73,6 +91,7 @@ public class UI_GameScene_Card : UI_Base
     void OnBeginDragCardButton(PointerEventData evt)
     {
         OriginalPosition = RectTransform.position;
+
         _mouseStartPos = evt.position;
 
         Card.CardState = ECardState.Dragging;
@@ -84,6 +103,9 @@ public class UI_GameScene_Card : UI_Base
     {
         GetImage((int)Images.CardButton).raycastTarget = false;
 
+        if (TrySwap(evt, isBoth: false))
+            _mouseStartPos = (Vector3)evt.position/* - RectTransform.position*/;
+
         Vector3 touchPosition = evt.position;
         RectTransform.position = OriginalPosition + (touchPosition - _mouseStartPos);
 
@@ -94,7 +116,7 @@ public class UI_GameScene_Card : UI_Base
     {
         if (IsChangePosition())
         {
-            if (!TrySwap(evt))
+            if (!TrySwap(evt, isBoth: true))
                 RectTransform.position = OriginalPosition; // 실패 시 복귀
 
             Debug.Log("On Up Button");
@@ -103,21 +125,5 @@ public class UI_GameScene_Card : UI_Base
         Card.CardState = ECardState.Idle;
         GetImage((int)Images.CardButton).raycastTarget = true;
     }
-
-    private bool TrySwap(PointerEventData evt)
-    {
-        if (evt.pointerEnter == null) return false;
-
-        var other = evt.pointerEnter.GetComponentInParent<UI_GameScene_Card>();
-        if (other == null) return false;
-
-        Managers.CardManager.SwapCards(this, other);
-
-        return true;
-    }
-
-    bool IsChangePosition()
-    {
-        return OriginalPosition != RectTransform.position;
-    }
+    #endregion
 }

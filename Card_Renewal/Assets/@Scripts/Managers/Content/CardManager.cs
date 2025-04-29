@@ -20,21 +20,24 @@ public class CardManager
     }
 
     // 슬롯 인덱스 기준으로 모델 리스트 순서 교체
-    public void SwapCards(UI_GameScene_Card A, UI_GameScene_Card B)
+    public void SwapCards(UI_GameScene_Card selected, UI_GameScene_Card target, bool updateBothPositions = true)
     {
         // Card Data Swap
-        var tmpCard = Cards[A.Card.Order];
-        Cards[A.Card.Order] = Cards[B.Card.Order];
-        Cards[B.Card.Order] = tmpCard;
+        var tmpCard = Cards[selected.Card.Order];
+        Cards[selected.Card.Order] = Cards[target.Card.Order];
+        Cards[target.Card.Order] = tmpCard;
 
         // Card Order Swap
-        var tmpOrder = A.Card.Order;
-        A.Card.Order = B.Card.Order;
-        B.Card.Order = tmpOrder;
+        var tmpOrder = selected.Card.Order;
+        selected.Card.Order = target.Card.Order;
+        target.Card.Order = tmpOrder;
 
         // Card Position Swap
-        var tmpPos = A.OriginalPosition;
-        A.RectTransform.position = B.RectTransform.position;
-        B.RectTransform.position = tmpPos;
+        var tmpPos = selected.OriginalPosition;
+        if (updateBothPositions)
+            selected.RectTransform.position = target.RectTransform.position;
+        else
+            selected.OriginalPosition = target.RectTransform.position;
+        target.RectTransform.position = tmpPos;
     }
 }
