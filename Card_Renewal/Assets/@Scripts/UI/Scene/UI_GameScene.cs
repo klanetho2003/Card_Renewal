@@ -11,6 +11,7 @@ using static UnityEditor.Progress;
 
 public class UI_GameScene : UI_Scene
 {
+    #region Enum to Bind
     enum GameObjects
     {
         CardsList,
@@ -19,8 +20,9 @@ public class UI_GameScene : UI_Scene
     {
         
     }
+    #endregion
 
-    List<UI_GameScene_Card> _cards = new List<UI_GameScene_Card>();
+    List<UI_GameScene_Card> _cardUIList = new List<UI_GameScene_Card>();
     const int MAX_ITEM_COUNT = 30;
 
     public override bool Init()
@@ -33,7 +35,7 @@ public class UI_GameScene : UI_Scene
         BindObjects(typeof(GameObjects));
         #endregion
 
-        #region Event Binding
+        #region Event Bind
         // GetButton((int)Buttons.ItemsListButton).gameObject.BindEvent(OnClickItemsListButton);
 
         Managers.CardManager.OnChangeCardCount += Refresh;
@@ -41,17 +43,16 @@ public class UI_GameScene : UI_Scene
 
         #region Instantiate Pre & Cache
 
-        _cards.Clear();
+        _cardUIList.Clear();
         var cardsParent = GetObject((int)GameObjects.CardsList);
         for (int i = 0; i < MAX_ITEM_COUNT; i++)
         {
             UI_GameScene_Card card = Managers.UI.MakeSubItem<UI_GameScene_Card>(cardsParent.transform);
-            _cards.Add(card);
+            _cardUIList.Add(card);
             card.gameObject.SetActive(false);
         }
 
         #endregion
-
 
         return true;
     }
@@ -63,7 +64,7 @@ public class UI_GameScene : UI_Scene
 
     void Refresh()
     {
-        Refresh_Item(_cards, Managers.CardManager.Cards);
+        Refresh_Item(_cardUIList, Managers.CardManager.Cards);
     }
 
     void Refresh_Item(List<UI_GameScene_Card> uiCardList, List<Card> CardList)

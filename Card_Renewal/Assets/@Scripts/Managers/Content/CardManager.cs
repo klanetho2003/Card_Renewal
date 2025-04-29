@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Data;
 using NUnit.Framework.Interfaces;
 using UnityEngine;
+using static Define;
 
 public class CardManager
 {
