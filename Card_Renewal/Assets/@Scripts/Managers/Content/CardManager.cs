@@ -7,68 +7,89 @@ using static Define;
 
 public class CardManager
 {
-    public List<Card> Cards { get; } = new List<Card>();
+    public List<PvpCard> PvpCards { get; } = new List<PvpCard>();
+    public List<MatchCard> MatchCards { get; } = new List<MatchCard>();
 
-    public event Action OnChangeCardCount;
+    public event Action OnChangePvpCardCount;
+    public event Action OnChangeMatchCardCount;
 
-    public void AddCard(int TemplateId)
+    public void AddPvpCard(int TemplateId)
     {
-        // Card Data 생성
-        var card = new Card(TemplateId, Cards.Count);
-        Cards.Add(card);
+        // PvpCard Data 생성
+        var newCard = new PvpCard(TemplateId, PvpCards.Count);
+        PvpCards.Add(newCard);
 
-        OnChangeCardCount?.Invoke();
+        OnChangePvpCardCount?.Invoke();
     }
 
-    // 슬롯 인덱스 기준으로 모델 리스트 순서 교체
-    public void SwapCards(UI_GameScene_Card selected, UI_GameScene_Card target, bool updateBothPositions = true)
+    public void AddMatchCard(int TemplateId)
     {
-        // Card Data Swap
-        var tmpCard = Cards[selected.Card.Order];
-        Cards[selected.Card.Order] = Cards[target.Card.Order];
-        Cards[target.Card.Order] = tmpCard;
+        // MatchCard Data 생성
+        var newCard = new MatchCard(TemplateId, MatchCards.Count);
+        MatchCards.Add(newCard);
 
-        // Card Order Swap
-        var tmpOrder = selected.Card.Order;
-        selected.Card.Order = target.Card.Order;
-        target.Card.Order = tmpOrder;
-
-        // Card Position Swap
-        var tmpPos = selected.Card.OriginalPosition;
-        if (updateBothPositions)
-            selected.RectTransform.position = target.RectTransform.position;
-        else
-            selected.Card.OriginalPosition = target.RectTransform.position;
-        target.RectTransform.position = tmpPos;
+        OnChangeMatchCardCount?.Invoke();
     }
 
-    public void SwapCardsVer2(UI_GameScene_Card selected, UI_GameScene_Card target, bool updateBothPositions = true)
+    /// <summary>
+    /// pvp 카드 대전
+    /// </summary>
+    public void SwapCardsPVP(UI_GameScenePVP_Card selected, UI_GameScenePVP_Card target, bool updateBothPositions = true)
     {
-        // Card Data Swap
-        var tmpCard = Cards[selected.Card.Order];
-        Cards[selected.Card.Order] = Cards[target.Card.Order];
-        Cards[target.Card.Order] = tmpCard;
+        int idxA = selected.Card.Order;
+        int idxB = target.Card.Order;
+        if (idxA == idxB) return;
 
-        // Card Order Swap
-        var tmpOrder = selected.Card.Order;
-        selected.Card.Order = target.Card.Order;
-        target.Card.Order = tmpOrder;
+        // 1) PvpCard Swap
+        PvpCard tmpModel = PvpCards[idxA];
+        PvpCards[idxA] = PvpCards[idxB];
+        PvpCards[idxB] = tmpModel;
 
-        // Card Position Swap
-        /*var tmpPos = selected.Card.OriginalPosition;
-        if (updateBothPositions)
-            selected.RectTransform.position = target.RectTransform.position;
-        else
-            selected.Card.OriginalPosition = target.RectTransform.position;
-        target.RectTransform.position = tmpPos;*/
+        // 2) Order Swap
+        selected.Card.Order = idxB;
+        target.Card.Order   = idxA;
 
-
-        var tmpOriginPos = selected.Card.OriginalPosition;
+        // 3) OriginalPosition Swap
+        Vector3 tmpPos = selected.Card.OriginalPosition;
         selected.Card.OriginalPosition = target.Card.OriginalPosition;
-        target.Card.OriginalPosition = tmpOriginPos;
+        target.Card.OriginalPosition   = tmpPos;
 
+        // 4) UI Posiion 갱신
         if (updateBothPositions)
+        {
             selected.RectTransform.position = selected.Card.OriginalPosition;
+        }
+        target.RectTransform.position = target.Card.OriginalPosition;
+    }
+
+    /// <summary>
+    /// 3 Match Puzzle
+    /// </summary>
+    public void SwapCardsMATCH(UI_GameSceneMatch_Card selected, UI_GameSceneMatch_Card target, bool updateBothPositions = true)
+    {
+        int idxA = selected.Card.Order;
+        int idxB = target.Card.Order;
+        if (idxA == idxB) return;
+
+        // 1) MatchCard Swap
+        MatchCard tmpModel = MatchCards[idxA];
+        MatchCards[idxA] = MatchCards[idxB];
+        MatchCards[idxB] = tmpModel;
+
+        // 2) Order Swap
+        selected.Card.Order = idxB;
+        target.Card.Order = idxA;
+
+        // 3) OriginalPosition Swap
+        Vector3 tmpPos = selected.Card.OriginalPosition;
+        selected.Card.OriginalPosition = target.Card.OriginalPosition;
+        target.Card.OriginalPosition = tmpPos;
+
+        // 4) UI Posiion 갱신
+        if (updateBothPositions)
+        {
+            selected.RectTransform.position = selected.Card.OriginalPosition;
+        }
         target.RectTransform.position = target.Card.OriginalPosition;
     }
 }

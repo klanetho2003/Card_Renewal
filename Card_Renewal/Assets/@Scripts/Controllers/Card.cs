@@ -7,17 +7,15 @@ using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.Rendering;
 using static Define;
 
-public class Card
+public class CardBase
 {
-    public UI_GameScene_Card CardUI { get; set; }
+    public CardData CardData { get; protected set; }
+    public TeamData TeamData { get; protected set; }
 
-    public CardData CardData { get; private set; }
-    public TeamData TeamData { get; private set; }
+    public ECardNum CardNum { get; protected set; } = ECardNum.None;
+    public ECardShape CardShape { get; protected set; } = ECardShape.None;
 
-    public ECardNum CardNum { get; private set; } = ECardNum.None;
-    public ECardShape CardShape { get; private set; } = ECardShape.None;
-
-    public ETeamColor TeamColor { get; private set; } = ETeamColor.None;
+    public ETeamColor TeamColor { get; protected set; } = ETeamColor.None;
 
     public int Order { get; set; }
 
@@ -40,12 +38,12 @@ public class Card
         }
     }
 
-    public Card(int templateId, int order)
+    public CardBase(int templateId, int order)
     {
         Init(templateId, order);
     }
 
-    void Init(int templateId, int order)
+    public virtual bool Init(int templateId, int order)
     {
         CardState = ECardState.Idle;
 
@@ -53,10 +51,50 @@ public class Card
         CardData = Managers.Data.CardDic[templateId];
         CardNum = CardData.CardNUm;
         CardShape = CardData.CardShape;
-         
+
         TeamColor = Managers.Game.PlayerTeamColor;
         TeamData = Managers.Data.TeamDic[(int)TeamColor];
 
         Order = order;
+
+        return true;
+    }
+}
+
+public class PvpCard : CardBase
+{
+    public UI_GameScenePVP_Card CardUI { get; set; }
+
+    public PvpCard(int templateId, int order) : base(templateId, order)
+    {
+        Init(templateId, order);
+    }
+
+    public override bool Init(int templateId, int order)
+    {
+        if (base.Init(templateId, order) == false)
+            return false;
+
+
+        return true;
+    }
+}
+
+public class MatchCard : CardBase
+{
+    public UI_GameSceneMatch_Card CardUI { get; set; }
+
+    public MatchCard(int templateId, int order) : base(templateId, order)
+    {
+        Init(templateId, order);
+    }
+
+    public override bool Init(int templateId, int order)
+    {
+        if (base.Init(templateId, order) == false)
+            return false;
+
+
+        return true;
     }
 }

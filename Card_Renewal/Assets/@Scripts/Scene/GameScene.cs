@@ -13,8 +13,11 @@ public class GameScene : BaseScene
         SceneType = EScene.GameScene;
 
         // To Do
-        SetCards(2, TempCard_Heart_Q);
-        SetCards(3, TempCard_Spade_Q);
+        SetPvpCards(3, TempCard_Heart_Q);
+        SetPvpCards(4, TempCard_Spade_Q);
+
+        SetMatchCards(2, TempCard_Heart_Q);
+        SetMatchCards(5, TempCard_Spade_Q);
 
         UI_GameScene gameScene = Managers.UI.ShowSceneUI<UI_GameScene>();
         gameScene.Setinfo();
@@ -22,12 +25,16 @@ public class GameScene : BaseScene
         return true;
     }
 
-    void SetCards(int cardsCount, int templateId)
+    void SetPvpCards(int cardsCount, int templateId)
     {
         for (int i = 0; i < cardsCount; i++)
-        {
-            Managers.CardManager.AddCard(templateId);
-        }
+            Managers.CardManager.AddPvpCard(templateId);
+    }
+
+    void SetMatchCards(int cardsCount, int templateId)
+    {
+        for (int i = 0; i < cardsCount; i++)
+            Managers.CardManager.AddMatchCard(templateId);
     }
 
     public override void Clear()

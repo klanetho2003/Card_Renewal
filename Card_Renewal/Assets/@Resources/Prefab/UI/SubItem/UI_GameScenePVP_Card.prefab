@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 4625858284256542712}
   - component: {fileID: 1976126889222909193}
   m_Layer: 5
-  m_Name: UI_GameScene_Card
+  m_Name: UI_GameScenePVP_Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

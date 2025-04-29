@@ -6,7 +6,7 @@ using static Define;
 
 public class ObjectManager
 {
-    // public HashSet<Card> Cards { get; } = new HashSet<Card>();
+    // public HashSet<PvpCard> PvpCards { get; } = new HashSet<PvpCard>();
     // 
     // public GameObject SpawnGameObject(Vector3 position, string prefabName)
     // {
@@ -25,10 +25,10 @@ public class ObjectManager
     // 
     //     BaseController obj = go.GetComponent<BaseController>();
     // 
-    //     if (obj.ObjectType == EObjectType.Card)
+    //     if (obj.ObjectType == EObjectType.PvpCard)
     //     {
-    //         Card card = go.GetComponent<Card>();
-    //         Cards.Add(card);
+    //         PvpCard card = go.GetComponent<PvpCard>();
+    //         PvpCards.Add(card);
     //         card.SetInfo(templateID);
     //     }
     // 
@@ -43,10 +43,10 @@ public class ObjectManager
     // 
     //     EObjectType objectType = obj.ObjectType;
     // 
-    //     if (obj.ObjectType == EObjectType.Card)
+    //     if (obj.ObjectType == EObjectType.PvpCard)
     //     {
-    //         Card temp = obj.GetComponent<Card>();
-    //         Cards.Remove(temp);
+    //         PvpCard temp = obj.GetComponent<PvpCard>();
+    //         PvpCards.Remove(temp);
     //     }
     // 
     //     // To Pool
@@ -61,7 +61,7 @@ public class ObjectManager
     // 
     // public void DespawnAllTemps()
     // {
-    //     var cards = Cards.ToList();
+    //     var cards = PvpCards.ToList();
     // 
     //     foreach (var card in cards)
     //         Managers.Object.Despawn(card);
