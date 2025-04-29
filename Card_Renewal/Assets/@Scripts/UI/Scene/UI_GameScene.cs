@@ -54,6 +54,8 @@ public class UI_GameScene : UI_Scene
 
         #endregion
 
+        Refresh();
+
         return true;
     }
 
@@ -78,7 +80,6 @@ public class UI_GameScene : UI_Scene
 
                 // Card UI SetInfo
                 cardUI.SetInfo(card);
-                cardUI.gameObject.SetActive(true);
             }
             else
             {

@@ -34,11 +34,41 @@ public class CardManager
         target.Card.Order = tmpOrder;
 
         // Card Position Swap
-        var tmpPos = selected.OriginalPosition;
+        var tmpPos = selected.Card.OriginalPosition;
         if (updateBothPositions)
             selected.RectTransform.position = target.RectTransform.position;
         else
-            selected.OriginalPosition = target.RectTransform.position;
+            selected.Card.OriginalPosition = target.RectTransform.position;
         target.RectTransform.position = tmpPos;
+    }
+
+    public void SwapCardsVer2(UI_GameScene_Card selected, UI_GameScene_Card target, bool updateBothPositions = true)
+    {
+        // Card Data Swap
+        var tmpCard = Cards[selected.Card.Order];
+        Cards[selected.Card.Order] = Cards[target.Card.Order];
+        Cards[target.Card.Order] = tmpCard;
+
+        // Card Order Swap
+        var tmpOrder = selected.Card.Order;
+        selected.Card.Order = target.Card.Order;
+        target.Card.Order = tmpOrder;
+
+        // Card Position Swap
+        /*var tmpPos = selected.Card.OriginalPosition;
+        if (updateBothPositions)
+            selected.RectTransform.position = target.RectTransform.position;
+        else
+            selected.Card.OriginalPosition = target.RectTransform.position;
+        target.RectTransform.position = tmpPos;*/
+
+
+        var tmpOriginPos = selected.Card.OriginalPosition;
+        selected.Card.OriginalPosition = target.Card.OriginalPosition;
+        target.Card.OriginalPosition = tmpOriginPos;
+
+        if (updateBothPositions)
+            selected.RectTransform.position = selected.Card.OriginalPosition;
+        target.RectTransform.position = target.Card.OriginalPosition;
     }
 }

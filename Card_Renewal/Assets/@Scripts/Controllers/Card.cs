@@ -9,6 +9,8 @@ using static Define;
 
 public class Card
 {
+    public UI_GameScene_Card CardUI { get; set; }
+
     public CardData CardData { get; private set; }
     public TeamData TeamData { get; private set; }
 
@@ -18,6 +20,8 @@ public class Card
     public ETeamColor TeamColor { get; private set; } = ETeamColor.None;
 
     public int Order { get; set; }
+
+    public Vector3 OriginalPosition { get; set; }
 
     public event Action<ECardState> OnStateChanged;
 
