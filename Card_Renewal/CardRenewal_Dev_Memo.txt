@@ -5,6 +5,3 @@ CardManager를 개선할 차례
 
 - AddCard 부분
 - SwapCard 부분
-
-- Match Card 내에서 Error 잡아야함
-var other = evt.pointerEnter.GetComponentInParent<UI_GameSceneMatch_Card>();

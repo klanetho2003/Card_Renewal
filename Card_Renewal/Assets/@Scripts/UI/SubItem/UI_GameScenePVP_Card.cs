@@ -40,13 +40,14 @@ public class UI_GameScenePVP_Card : UI_GameScene_CardBase<PvpCard>
     
     private bool TrySwap(Vector3 moveDir, PointerEventData evt, UI_GameScenePVP_Card other, bool isBoth)
     {
-        base.TrySwap(evt, isBoth);
+        if (base.TrySwap(evt, isBoth) == false)
+            return false;
 
         float remainDestX = evt.position.x - other.Card.OriginalPosition.x; // 목적지 기준 거리 계산
         bool canSwap = (moveDir.x < 0) ? remainDestX < 0 : remainDestX > 0; // 이동 방향에 따라 Swap 가능 여부 처리
 
         if (canSwap)
-            _cardManager.SwapCardsPVP(this, other, isBoth);
+            _cardManager.SwapPvpCards(this, other, isBoth);
 
         return true;
     }

@@ -22,47 +22,27 @@ public class UI_GameScene : UI_Scene
     }
     #endregion
 
+    const int MAX_ITEM_COUNT = 30;
+
     List<UI_GameScenePVP_Card> _cardUIList_PVP = new List<UI_GameScenePVP_Card>();
     List<UI_GameSceneMatch_Card> _cardUIList_MATCH = new List<UI_GameSceneMatch_Card>();
-    const int MAX_ITEM_COUNT = 30;
 
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
 
-        #region Bind
+        // Bind
         // BindTexts(typeof(Texts));
         BindObjects(typeof(GameObjects));
-        #endregion
 
-        #region Event Bind
-        // GetButton((int)Buttons.ItemsListButton).gameObject.BindEvent(OnClickItemsListButton);
-
+        // Event Bind
+        // GetButton((int)Buttons.AddCardButton).gameObject.BindEvent(OnClickAddCardButton);
         Managers.CardManager.OnChangePvpCardCount += Refresh;
-        #endregion
 
-        #region Instantiate Pre & Cache
-
-        _cardUIList_PVP.Clear();
-        var cardsParent_PVP = GetObject((int)GameObjects.CardsList_PVP);
-        for (int i = 0; i < MAX_ITEM_COUNT; i++)
-        {
-            UI_GameScenePVP_Card card = Managers.UI.MakeSubItem<UI_GameScenePVP_Card>(cardsParent_PVP.transform);
-            _cardUIList_PVP.Add(card);
-            card.gameObject.SetActive(false);
-        }
-
-        _cardUIList_MATCH.Clear();
-        var cardsParent_Match = GetObject((int)GameObjects.CardsList_MATCH);
-        for (int i = 0; i < MAX_ITEM_COUNT; i++)
-        {
-            UI_GameSceneMatch_Card card = Managers.UI.MakeSubItem<UI_GameSceneMatch_Card>(cardsParent_Match.transform);
-            _cardUIList_MATCH.Add(card);
-            card.gameObject.SetActive(false);
-        }
-
-        #endregion
+        // Instantiate Pre & Cache
+        InitializeCardUI<UI_GameScenePVP_Card, PvpCard>(_cardUIList_PVP, GetObject((int)GameObjects.CardsList_PVP).transform);
+        InitializeCardUI<UI_GameSceneMatch_Card, MatchCard>(_cardUIList_MATCH, GetObject((int)GameObjects.CardsList_MATCH).transform);
 
         Refresh();
 
@@ -76,40 +56,28 @@ public class UI_GameScene : UI_Scene
 
     void Refresh()
     {
-        Refresh_PVPCards(_cardUIList_PVP, Managers.CardManager.PvpCards);
-        Refresh_MatchCards(_cardUIList_MATCH, Managers.CardManager.MatchCards);
+        RefreshCards(_cardUIList_PVP, Managers.CardManager.PvpCards);
+        RefreshCards(_cardUIList_MATCH, Managers.CardManager.MatchCards);
     }
 
-    void Refresh_PVPCards(List<UI_GameScenePVP_Card> uiCardList, List<PvpCard> CardList)
+    private void InitializeCardUI<TUI, TCard>(List<TUI> uiList, Transform parent) where TUI : UI_GameScene_CardBase<TCard> where TCard : CardBase
     {
-        for (int i = 0; i < uiCardList.Count; i++)
+        uiList.Clear();
+        for (int i = 0; i < MAX_ITEM_COUNT; i++)
         {
-            if (i < CardList.Count)
-            {
-                PvpCard card = CardList[i];
-                var cardUI = uiCardList[i];
-
-                // PvpCard UI SetInfo
-                cardUI.SetInfo(card);
-            }
-            else
-            {
-                uiCardList[i].gameObject.SetActive(false);
-            }
+            var cardUI = Managers.UI.MakeSubItem<TUI>(parent);
+            cardUI.gameObject.SetActive(false);
+            uiList.Add(cardUI);
         }
     }
 
-    void Refresh_MatchCards(List<UI_GameSceneMatch_Card> uiCardList, List<MatchCard> CardList)
+    private void RefreshCards<TUI, TCard>(List<TUI> uiCardList, List<TCard> cardList) where TUI : UI_GameScene_CardBase<TCard> where TCard : CardBase
     {
         for (int i = 0; i < uiCardList.Count; i++)
         {
-            if (i < CardList.Count)
+            if (i < cardList.Count)
             {
-                MatchCard card = CardList[i];
-                var cardUI = uiCardList[i];
-
-                // MatchCard UI SetInfo
-                cardUI.SetInfo(card);
+                uiCardList[i].SetInfo(cardList[i]);
             }
             else
             {

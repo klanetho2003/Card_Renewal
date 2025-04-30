@@ -19,11 +19,13 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     #endregion
 
     public T Card { get; protected set; }
+    public ECardState CardUIState { get; protected set; } = ECardState.None;
 
     protected CardManager _cardManager { get { return Managers.CardManager; } }
 
     public RectTransform RectTransform { get; protected set; }
 
+    #region Init & SetInfo
     public override bool Init()
     {
         if (base.Init() == false)
@@ -44,6 +46,9 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         // SetActive -> 1프레임 뒤에 Position Setting // GridLayGroup 초기화 이슈,
         gameObject.SetActive(true);
         StartCoroutine(CaptureOriginalNextFrame());
+
+        // Init State
+        CardUIState = card.CardState;
     }
 
     IEnumerator CaptureOriginalNextFrame()
@@ -51,15 +56,69 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         yield return new WaitForEndOfFrame();
         Card.OriginalPosition = RectTransform.position;
     }
+    #endregion
+
+    #region Update
+    private void Update()
+    {
+        OnUpdate();
+    }
+
+    private void OnUpdate()
+    {
+        switch (CardUIState)
+        {
+            case ECardState.Idle:
+                UpdateIdle();
+                break;
+            case ECardState.Moving:
+                UpdateMoving();
+                break;
+        }
+    }
+    
+    protected virtual void UpdateIdle()
+    {
+        CardTilt();
+    }
+    protected virtual void UpdateMoving() { }
+    protected virtual void UpdateAdd() { }
+    protected virtual void UpdateRemove() { }
+    #endregion
+
+    #region Animation & Tweeing
+    private float tiltMaxAngle = 15f;   // Tilt Amount
+    private float tiltLerpSpeed = 40f;  // Tilt Speed
+    private void CardTilt()
+    {
+        // 사인, 코사인 계산
+        float time = Time.time;
+        float sinValue = Mathf.Sin(time);
+        float cosValue = Mathf.Cos(time);
+
+        // 현재 Euler 각도 읽기
+        Vector3 euler = RectTransform.eulerAngles;
+
+        // X, Y 축 각각 LerpAngle 보간
+        float newX = Mathf.LerpAngle(euler.x, sinValue * tiltMaxAngle, tiltLerpSpeed * Time.deltaTime);
+
+        float newY = Mathf.LerpAngle(euler.y, cosValue * tiltMaxAngle, tiltLerpSpeed * Time.deltaTime);
+
+        // Apply
+        RectTransform.eulerAngles = new Vector3(newX, newY, 0f);
+
+    }
+
+    #endregion
 
     protected virtual void OnStateChanged(ECardState state)
     {
-        // To Do : 상태별 애니메이션 처리
+        CardUIState = state;
     }
 
-    protected bool HasMoved()
+    public void UpdatePositionFromCard()
     {
-        return Card.OriginalPosition != RectTransform.position;
+        RectTransform.position = Card.OriginalPosition;
     }
 
     protected virtual bool TrySwap(PointerEventData evt, bool isBoth)
@@ -83,7 +142,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     protected virtual void OnBeginDrag(PointerEventData evt)
     {
         _dragOffset = RectTransform.position - (Vector3)evt.position;
-        Card.CardState = ECardState.Dragging;
+        Card.CardState = ECardState.Moving;
 
         Debug.Log("On Begin Drag");
     }
@@ -102,6 +161,13 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         Card.CardState = ECardState.Idle;
         RectTransform.position = Card.OriginalPosition;
         GetImage((int)Images.CardButton).raycastTarget = true;
+    }
+    #endregion
+
+    #region Helper
+    protected bool HasMoved()
+    {
+        return Card.OriginalPosition != RectTransform.position;
     }
     #endregion
 }

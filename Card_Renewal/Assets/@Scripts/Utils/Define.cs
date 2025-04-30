@@ -75,7 +75,7 @@ public class Define
     {
         None,
         Idle,
-        Dragging,
+        Moving,
     }
 
     public enum EObjectType

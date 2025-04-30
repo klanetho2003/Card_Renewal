@@ -7,34 +7,37 @@ public class GameScene : BaseScene
 {
     public override bool Init()
     {
-        if (base.Init() == false)
+        if (!base.Init())
             return false;
 
         SceneType = EScene.GameScene;
 
-        // To Do
-        SetPvpCards(3, TempCard_Heart_Q);
-        SetPvpCards(4, TempCard_Spade_Q);
-
-        SetMatchCards(2, TempCard_Heart_Q);
-        SetMatchCards(5, TempCard_Spade_Q);
-
-        UI_GameScene gameScene = Managers.UI.ShowSceneUI<UI_GameScene>();
-        gameScene.Setinfo();
+        InitializeCards();
+        InitializeUI();
 
         return true;
     }
 
-    void SetPvpCards(int cardsCount, int templateId)
+    // To Do : InitGame Data Parsing
+    private void InitializeCards()
     {
-        for (int i = 0; i < cardsCount; i++)
-            Managers.CardManager.AddPvpCard(templateId);
+        AddCards(Managers.CardManager.AddPvpCard, 1, TempCard_Heart_Q);
+        // AddCards(Managers.CardManager.AddPvpCard, 4, TempCard_Spade_Q);
+
+        // AddCards(Managers.CardManager.AddMatchCard, 2, TempCard_Heart_Q);
+        // AddCards(Managers.CardManager.AddMatchCard, 5, TempCard_Spade_Q);
     }
 
-    void SetMatchCards(int cardsCount, int templateId)
+    private void AddCards(System.Action<int> addCardFunc, int count, int templateId)
     {
-        for (int i = 0; i < cardsCount; i++)
-            Managers.CardManager.AddMatchCard(templateId);
+        for (int i = 0; i < count; i++)
+            addCardFunc.Invoke(templateId);
+    }
+
+    private void InitializeUI()
+    {
+        UI_GameScene gameScene = Managers.UI.ShowSceneUI<UI_GameScene>();
+        gameScene.Setinfo();
     }
 
     public override void Clear()

@@ -13,83 +13,56 @@ public class CardManager
     public event Action OnChangePvpCardCount;
     public event Action OnChangeMatchCardCount;
 
-    public void AddPvpCard(int TemplateId)
+    #region Add Card
+    public void AddPvpCard(int templateId)
     {
-        // PvpCard Data 생성
-        var newCard = new PvpCard(TemplateId, PvpCards.Count);
-        PvpCards.Add(newCard);
-
-        OnChangePvpCardCount?.Invoke();
+        AddCard(PvpCards, (id, order) => new PvpCard(id, order), templateId, OnChangePvpCardCount);
     }
 
-    public void AddMatchCard(int TemplateId)
+    public void AddMatchCard(int templateId)
     {
-        // MatchCard Data 생성
-        var newCard = new MatchCard(TemplateId, MatchCards.Count);
-        MatchCards.Add(newCard);
-
-        OnChangeMatchCardCount?.Invoke();
+        AddCard(MatchCards, (id, order) => new MatchCard(id, order), templateId, OnChangeMatchCardCount);
     }
 
-    /// <summary>
-    /// pvp 카드 대전
-    /// </summary>
-    public void SwapCardsPVP(UI_GameScenePVP_Card selected, UI_GameScenePVP_Card target, bool updateBothPositions = true)
+    private void AddCard<T>(List<T> list, Func<int, int, T> cardFactory, int templateId, Action onChange)
     {
-        int idxA = selected.Card.Order;
-        int idxB = target.Card.Order;
-        if (idxA == idxB) return;
+        var newCard = cardFactory.Invoke(templateId, list.Count);
+        list.Add(newCard);
+        onChange?.Invoke();
+    }
+    #endregion
 
-        // 1) PvpCard Swap
-        PvpCard tmpModel = PvpCards[idxA];
-        PvpCards[idxA] = PvpCards[idxB];
-        PvpCards[idxB] = tmpModel;
-
-        // 2) Order Swap
-        selected.Card.Order = idxB;
-        target.Card.Order   = idxA;
-
-        // 3) OriginalPosition Swap
-        Vector3 tmpPos = selected.Card.OriginalPosition;
-        selected.Card.OriginalPosition = target.Card.OriginalPosition;
-        target.Card.OriginalPosition   = tmpPos;
-
-        // 4) UI Posiion 갱신
-        if (updateBothPositions)
-        {
-            selected.RectTransform.position = selected.Card.OriginalPosition;
-        }
-        target.RectTransform.position = target.Card.OriginalPosition;
+    #region Swap Card
+    public void SwapPvpCards(UI_GameScenePVP_Card selected, UI_GameScenePVP_Card target, bool updateBoth = true)
+    {
+        SwapCards(PvpCards, selected, target, updateBoth);
     }
 
-    /// <summary>
-    /// 3 Match Puzzle
-    /// </summary>
-    public void SwapCardsMATCH(UI_GameSceneMatch_Card selected, UI_GameSceneMatch_Card target, bool updateBothPositions = true)
+    public void SwapMatchCards(UI_GameSceneMatch_Card selected, UI_GameSceneMatch_Card target, bool updateBoth = true)
+    {
+        SwapCards(MatchCards, selected, target, updateBoth);
+    }
+
+    private void SwapCards<TCard, TUI>(List<TCard> list, TUI selected, TUI target, bool updateBothPositions) where TCard : CardBase where TUI : UI_GameScene_CardBase<TCard>
     {
         int idxA = selected.Card.Order;
         int idxB = target.Card.Order;
         if (idxA == idxB) return;
 
-        // 1) MatchCard Swap
-        MatchCard tmpModel = MatchCards[idxA];
-        MatchCards[idxA] = MatchCards[idxB];
-        MatchCards[idxB] = tmpModel;
+        // CardList 순서 Swap
+        (list[idxA], list[idxB]) = (list[idxB], list[idxA]);
 
-        // 2) Order Swap
-        selected.Card.Order = idxB;
-        target.Card.Order = idxA;
+        // Card가 지닌 순서 Data Swap
+        (selected.Card.Order, target.Card.Order) = (idxB, idxA);
 
-        // 3) OriginalPosition Swap
-        Vector3 tmpPos = selected.Card.OriginalPosition;
-        selected.Card.OriginalPosition = target.Card.OriginalPosition;
-        target.Card.OriginalPosition = tmpPos;
+        // Card가 지닌 위치값 Swap
+        (selected.Card.OriginalPosition, target.Card.OriginalPosition) =
+            (target.Card.OriginalPosition, selected.Card.OriginalPosition);
 
-        // 4) UI Posiion 갱신
+        // UI Position 갱신
         if (updateBothPositions)
-        {
-            selected.RectTransform.position = selected.Card.OriginalPosition;
-        }
-        target.RectTransform.position = target.Card.OriginalPosition;
+            selected.UpdatePositionFromCard();
+        target.UpdatePositionFromCard();
     }
+    #endregion
 }

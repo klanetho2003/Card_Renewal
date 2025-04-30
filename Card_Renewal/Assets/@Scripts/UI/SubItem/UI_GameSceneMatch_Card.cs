@@ -39,13 +39,14 @@ public class UI_GameSceneMatch_Card : UI_GameScene_CardBase<MatchCard>
 
     protected override bool TrySwap(PointerEventData evt, bool isBoth)
     {
-        base.TrySwap(evt, isBoth);
+        if (base.TrySwap(evt, isBoth) == false)
+            return false;
 
         var other = evt.pointerEnter.GetComponentInParent<UI_GameSceneMatch_Card>();
         if (other == null) return false;
-        if (other.Card.CardState == ECardState.Dragging) return false; // 처음은 other가 아닐 수 있음
+        if (other.Card.CardState == ECardState.Moving) return false; // 처음은 other가 아닐 수 있음
 
-        _cardManager.SwapCardsMATCH(this, other, isBoth);
+        _cardManager.SwapMatchCards(this, other, isBoth);
 
         return true;
     }
