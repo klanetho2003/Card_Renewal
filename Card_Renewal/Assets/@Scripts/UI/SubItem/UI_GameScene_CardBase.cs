@@ -19,7 +19,27 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     #endregion
 
     public T Card { get; protected set; }
-    public ECardState CardUIState { get; protected set; } = ECardState.None;
+
+    ECardState _cardUIState = ECardState.None;
+    public ECardState CardUIState
+    {
+        get { return _cardUIState; }
+        protected set
+        {
+            if (_cardUIState == value) return;
+
+            _cardUIState = value;
+
+            switch (value)
+            {
+                case ECardState.Idle:
+                    startOffset = Random.Range(0f, Mathf.PI * 2f);
+                    break;
+                case ECardState.Moving:
+                    break;
+            }
+        }
+    }
 
     protected CardManager _cardManager { get { return Managers.CardManager; } }
 
@@ -30,6 +50,8 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     {
         if (base.Init() == false)
             return false;
+
+        tiltSettings = Managers.Resource.Load<IdleTiltSettings>("IdleTiltSettings");
 
         return true;
     }
@@ -49,6 +71,10 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         // Init State
         CardUIState = card.CardState;
+    }
+    protected virtual void OnStateChanged(ECardState state)
+    {
+        CardUIState = state;
     }
 
     IEnumerator CaptureOriginalNextFrame()
@@ -87,12 +113,12 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     #endregion
 
     #region Animation & Tweeing
-    private float tiltMaxAngle = 15f;   // Tilt Amount
-    private float tiltLerpSpeed = 40f;  // Tilt Speed
+    private float startOffset; // 시작 시점을 달리하여, 각 카드가 다른 Motion일 수 있도록 만들기 위함
+    private IdleTiltSettings tiltSettings;
     private void CardTilt()
     {
         // 사인, 코사인 계산
-        float time = Time.time;
+        float time = Time.time + startOffset;
         float sinValue = Mathf.Sin(time);
         float cosValue = Mathf.Cos(time);
 
@@ -100,21 +126,13 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         Vector3 euler = RectTransform.eulerAngles;
 
         // X, Y 축 각각 LerpAngle 보간
-        float newX = Mathf.LerpAngle(euler.x, sinValue * tiltMaxAngle, tiltLerpSpeed * Time.deltaTime);
-
-        float newY = Mathf.LerpAngle(euler.y, cosValue * tiltMaxAngle, tiltLerpSpeed * Time.deltaTime);
+        float newX = Mathf.LerpAngle(euler.x, sinValue * tiltSettings.maxAngle, tiltSettings.lerpSpeed * Time.deltaTime);
+        float newY = Mathf.LerpAngle(euler.y, cosValue * tiltSettings.maxAngle, tiltSettings.lerpSpeed * Time.deltaTime);
 
         // Apply
         RectTransform.eulerAngles = new Vector3(newX, newY, 0f);
-
     }
-
     #endregion
-
-    protected virtual void OnStateChanged(ECardState state)
-    {
-        CardUIState = state;
-    }
 
     public void UpdatePositionFromCard()
     {

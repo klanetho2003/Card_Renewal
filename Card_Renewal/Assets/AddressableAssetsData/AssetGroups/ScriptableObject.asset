@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: 36d13b3fc4a0ed34684e604775cd98cb
   m_SerializeEntries:
   - m_GUID: f1c30c7563b164c428313a0698910677
-    m_Address: CurveParameters
+    m_Address: IdleTiltSettings
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

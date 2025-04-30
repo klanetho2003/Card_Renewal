@@ -21,11 +21,11 @@ public class GameScene : BaseScene
     // To Do : InitGame Data Parsing
     private void InitializeCards()
     {
-        AddCards(Managers.CardManager.AddPvpCard, 1, TempCard_Heart_Q);
-        // AddCards(Managers.CardManager.AddPvpCard, 4, TempCard_Spade_Q);
+        AddCards(Managers.CardManager.AddPvpCard, 3, TempCard_Heart_Q);
+        AddCards(Managers.CardManager.AddPvpCard, 4, TempCard_Spade_Q);
 
-        // AddCards(Managers.CardManager.AddMatchCard, 2, TempCard_Heart_Q);
-        // AddCards(Managers.CardManager.AddMatchCard, 5, TempCard_Spade_Q);
+        AddCards(Managers.CardManager.AddMatchCard, 2, TempCard_Heart_Q);
+        AddCards(Managers.CardManager.AddMatchCard, 5, TempCard_Spade_Q);
     }
 
     private void AddCards(System.Action<int> addCardFunc, int count, int templateId)
