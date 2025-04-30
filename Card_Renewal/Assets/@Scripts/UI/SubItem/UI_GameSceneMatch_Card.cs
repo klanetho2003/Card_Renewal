@@ -4,27 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using static Define;
 
-public class UI_GameSceneMatch_Card : UI_GameScene_CardBase
+public class UI_GameSceneMatch_Card : UI_GameScene_CardBase<MatchCard>
 {
-    #region Enum to Bind
-    enum Buttons
-    {
-        CardButton,
-    }
-
-    enum Images
-    {
-        CardButton,
-        CardImage,
-    }
-    #endregion
-    
-    public MatchCard Card { get; private set; }
-
-    CardManager _cardManager { get { return Managers.CardManager; } }
-
-    public RectTransform RectTransform { get; private set; }
-
     public override bool Init()
     {
         if (base.Init() == false)
@@ -48,42 +29,17 @@ public class UI_GameSceneMatch_Card : UI_GameScene_CardBase
         return true;
     }
 
-    public void SetInfo(MatchCard card)
+    public override void SetInfo(MatchCard card)
     {
-        transform.localScale = Vector3.one;
-
-        Card = card;
-
-        // Setting UI Image
-        GetImage((int)Images.CardImage).sprite = Managers.Resource.Load<Sprite>(card.CardData.FrontSpriteName);
-
-        // SetActive -> 1프레임 뒤에 Position Setting // GridLayGroup 초기화 이슈,
-        gameObject.SetActive(true);
-        StartCoroutine(CaptureOriginalNextFrame());
+        base.SetInfo(card);
 
         card.CardUI = this;
         card.OnStateChanged += OnStateChanged;
     }
 
-    IEnumerator CaptureOriginalNextFrame()
+    protected override bool TrySwap(PointerEventData evt, bool isBoth)
     {
-        yield return new WaitForEndOfFrame();
-        Card.OriginalPosition = RectTransform.position;
-    }
-
-    void OnStateChanged(ECardState state)
-    {
-        // To Do : 상태별 애니메이션 처리
-    }
-
-    bool HasMoved()
-    {
-        return Card.OriginalPosition != RectTransform.position;
-    }
-
-    private bool TrySwap(PointerEventData evt, bool isBoth)
-    {
-        if (evt.pointerEnter == null) return false;
+        base.TrySwap(evt, isBoth);
 
         var other = evt.pointerEnter.GetComponentInParent<UI_GameSceneMatch_Card>();
         if (other == null) return false;
@@ -95,48 +51,34 @@ public class UI_GameSceneMatch_Card : UI_GameScene_CardBase
     }
 
     #region Event Handle
-    void OnClick(PointerEventData evt)
+    protected override void OnClick(PointerEventData evt)
     {
-        if (HasMoved()) return;
-        Card.CardState = ECardState.Idle; // To Do : Select State
-
-        Debug.Log("On Click");
+        base.OnClick(evt);
     }
 
-    Vector3 _dragOffset;
-    void OnBeginDrag(PointerEventData evt)
+    protected override void OnBeginDrag(PointerEventData evt)
     {
-        _dragOffset = RectTransform.position - (Vector3)evt.position;
-        Card.CardState = ECardState.Dragging;
-
-        Debug.Log("On Begin Drag");
+        base.OnBeginDrag(evt);
     }
 
-    void OnDrag(PointerEventData evt)
+    protected override void OnDrag(PointerEventData evt)
     {
-        Debug.Log($"On Drag");
-
-        GetImage((int)Images.CardButton).raycastTarget = false;
+        base.OnDrag(evt);
 
         TrySwap(evt, isBoth: false);
-
-        Vector3 touchPosition = evt.position;
-        RectTransform.position = touchPosition + _dragOffset;
     }
 
-    void OnEndDrag(PointerEventData evt)
+    protected override void OnEndDrag(PointerEventData evt)
     {
         if (HasMoved())
         {
             if (!TrySwap(evt, isBoth: true))
-                RectTransform.position = Card.OriginalPosition;
+                RectTransform.position = base.Card.OriginalPosition;
 
             Debug.Log("On Up Button");
         }
 
-        Card.CardState = ECardState.Idle;
-        RectTransform.position = Card.OriginalPosition;
-        GetImage((int)Images.CardButton).raycastTarget = true;
+        base.OnEndDrag(evt);
     }
     #endregion
 }

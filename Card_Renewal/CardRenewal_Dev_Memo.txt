@@ -1,5 +1,10 @@
 To Do List
 
-"(-15.53, -1727.78)"
+UI는 가독성을 많이 개선함.
+CardManager를 개선할 차례
 
-"(104.00, -100.00, 0.00)"
+- AddCard 부분
+- SwapCard 부분
+
+- Match Card 내에서 Error 잡아야함
+var other = evt.pointerEnter.GetComponentInParent<UI_GameSceneMatch_Card>();
