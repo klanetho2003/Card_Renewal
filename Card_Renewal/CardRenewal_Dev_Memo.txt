@@ -1,7 +1,7 @@
 To Do List
 
-UI는 가독성을 많이 개선함.
-CardManager를 개선할 차례
+Animation 디벨롭
 
-- AddCard 부분
-- SwapCard 부분
+- Move
+- Select
+- Point Enter

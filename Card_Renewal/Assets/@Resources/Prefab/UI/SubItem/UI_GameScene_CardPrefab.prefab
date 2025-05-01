@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 892805277162079073}
   - component: {fileID: 6213539183750476181}
   m_Layer: 5
-  m_Name: CardShdow
+  m_Name: CardShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

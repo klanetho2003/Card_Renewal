@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c589496d3f64b3b4b94aaba38cef052a
+    m_Address: ClickSetting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f1c30c7563b164c428313a0698910677
     m_Address: IdleTiltSetting
     m_ReadOnly: 0

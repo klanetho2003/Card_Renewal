@@ -21,20 +21,30 @@ public class CardBase
 
     public Vector3 OriginalPosition { get; set; }
 
-    public event Action<ECardState> OnStateChanged;
+    public event Action<ECardState, ECardState> OnStateChanged;
 
-    public ECardState _cardState = ECardState.None;
+    private ECardState _cardState;
+    public ECardState LastCardState { get; private set; } = ECardState.None;
     public ECardState CardState
     {
         get { return _cardState; }
         set
         {
+            if (_cardState == ECardState.Select)
+            {
+                if (value != ECardState.Select)
+                    return;
+
+                value = ECardState.PointUp;
+            }
+                
             if (_cardState == value)
                 return;
 
+            LastCardState = _cardState;
             _cardState = value;
 
-            OnStateChanged?.Invoke(value);
+            OnStateChanged?.Invoke(value, LastCardState);
         }
     }
 

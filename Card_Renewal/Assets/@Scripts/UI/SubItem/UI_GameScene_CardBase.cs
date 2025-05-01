@@ -10,6 +10,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     protected enum GameObjects
     {
         CardButton,
+        CardShadow,
     }
 
     protected enum Buttons
@@ -30,25 +31,17 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     public RectTransform RectTransform { get; protected set; }
     public RectTransform ImageRectTransform { get; protected set; }
+    public RectTransform ShadowRectTransform { get; protected set; }
 
     // Scriptable Objects
     private IdleTiltSetting _tiltSetting;
     private HoverSetting _hoverSetting;
+    private ClickSetting _clickSetting;
 
-    ECardState _cardUIState = ECardState.None;
-    public ECardState CardUIState
-    {
-        get { return _cardUIState; }
-        protected set
-        {
-            if (_cardUIState == value) return;
-
-            ECardState lastState = _cardUIState;
-            _cardUIState = value;
-
-            PlayAnimation(value, lastState);
-        }
-    }
+    [SerializeField]
+    ECardState DebugState_1 = ECardState.None;
+    [SerializeField]
+    ECardState DebugState_2 = ECardState.None;
 
     #region Init & SetInfo
     public override bool Init()
@@ -60,6 +53,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         _tiltSetting = Managers.Resource.Load<IdleTiltSetting>("IdleTiltSetting");
         _hoverSetting = Managers.Resource.Load<HoverSetting>("HoverSetting");
+        _clickSetting = Managers.Resource.Load<ClickSetting>("ClickSetting");
 
         #region Bind
         BindObjects(typeof(GameObjects));
@@ -96,20 +90,17 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         // SetActive -> 1프레임 뒤에 Position Setting // GridLayGroup 초기화 이슈,
         gameObject.SetActive(true);
         ImageRectTransform = GetObject((int)GameObjects.CardButton).GetComponent<RectTransform>();
+        ShadowRectTransform = GetObject((int)GameObjects.CardShadow).GetComponent<RectTransform>();
+        _originShadowPosition = ShadowRectTransform.localPosition;
         StartCoroutine(CaptureOriginalNextFrame());
-
-        // Init State
-        CardUIState = card.CardState;
-    }
-    protected virtual void OnStateChanged(ECardState state)
-    {
-        CardUIState = state;
     }
 
     IEnumerator CaptureOriginalNextFrame()
     {
         yield return new WaitForEndOfFrame();
         Card.OriginalPosition = RectTransform.position;
+
+        PlayAnimation(ECardState.Idle, ECardState.None);
     }
     #endregion
 
@@ -120,18 +111,31 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     protected virtual bool TrySwap(PointerEventData evt, bool isBoth)
     {
+        if (HasMoved() == false)
+            return false;
+
         if (evt.pointerEnter == null)
             return false;
 
         return true;
     }
 
-    #region Animation
+    protected virtual void OnStateChanged(ECardState currentState, ECardState lastState)
+    {
+        PlayAnimation(currentState, lastState);
+        _IsLongPress = false;
 
+        DebugState_1 = currentState;
+        DebugState_2 = lastState;
+    }
+
+    #region Animation
     void PlayAnimation(ECardState currentUiState, ECardState lastUiState)
     {
         if (_coCardTilt != null) StopCoroutine(_coCardTilt); _coCardTilt = null;
-        if (lastUiState == ECardState.Hover) PlayDeHoverAnim();
+
+        if (lastUiState == ECardState.Hover)
+            PlayDeHoverAnim();
 
         switch (currentUiState)
         {
@@ -140,6 +144,12 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
                 break;
             case ECardState.Hover:
                 PlayHoverAnim();
+                break;
+            case ECardState.PointDown:
+                PlayPointerDown();
+                break;
+            case ECardState.PointUp:
+                PlayPointerUp();
                 break;
             case ECardState.Select:
                 break;
@@ -197,9 +207,30 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     }
 
-    private void PlayDeHoverAnim(float deltaFromOriginalSize = 1) // 1 -> OriginSize
+    protected virtual void PlayDeHoverAnim(float deltaFromOriginalSize = 1) // 1 -> OriginSize
     {
-        RectTransform.DOScale(1, _hoverSetting.scaleTransition).SetEase(Ease.OutBack);
+        RectTransform.DOScale(deltaFromOriginalSize, _hoverSetting.scaleTransition).SetEase(Ease.OutBack);
+    }
+    #endregion
+
+    #region PointUp / PointDown / Click Animation
+    protected virtual void PlayPointerDown()
+    {
+        if (_clickSetting.IsApplyScaleAnimation)
+            RectTransform.DOScale(_clickSetting.scaleOnSelect, _clickSetting.scaleTransition).SetEase(Ease.OutBack);
+
+        ShadowRectTransform.localPosition += (-Vector3.up * _clickSetting.shadowOffset);
+    }
+
+    Vector2 _originShadowPosition = Vector2.zero;
+    protected virtual void PlayPointerUp(float deltaFromOriginalSize = 1) // 1 -> OriginSize
+    {
+        if (_clickSetting.IsApplyScaleAnimation)
+            RectTransform.DOScale(deltaFromOriginalSize, _clickSetting.scaleTransition).SetEase(Ease.OutBack);
+
+        ShadowRectTransform.localPosition = _originShadowPosition;
+
+        PlayIdleAnim();
     }
     #endregion
 
@@ -208,9 +239,11 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     #region Event Handle
     protected virtual void OnPointerEnter(PointerEventData evt)
     {
+        if (HasMoved()) return;
+
         Card.CardState = ECardState.Hover;
 
-        Debug.Log("On PointerEnter");
+        Debug.Log("On Pointer Enter");
     }
 
     protected virtual void OnPointerExit(PointerEventData evt)
@@ -219,32 +252,41 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         Card.CardState = ECardState.Idle;
 
-        Debug.Log("On PointerExit");
+        Debug.Log("On Pointer Exit");
     }
 
     protected Vector3 _dragOffset;
+    private float _pointerDownTime;
+    private bool _IsLongPress = false;
     protected virtual void OnPointerDown(PointerEventData evt)
     {
+        Card.CardState = ECardState.PointDown;
+
         _dragOffset = RectTransform.position - (Vector3)evt.position;
+
+        _pointerDownTime = Time.time;
     }
 
     protected virtual void OnPointerUp(PointerEventData evt)
     {
-        /*if (scaleAnimations)
-            transform.DOScale(longPress ? scaleOnHover : scaleOnSelect, scaleTransition).SetEase(scaleEase);
-
-        visualShadow.localPosition = shadowDistance;*/
-
-        Card.CardState = ECardState.Idle;
         RectTransform.position = Card.OriginalPosition;
         GetImage((int)Images.CardButton).raycastTarget = true;
 
-        Debug.Log("On End Drag");
+        float pointerUpTime = Time.time;
+        _IsLongPress = (pointerUpTime - _pointerDownTime > 0.2f);
+
+        if (_IsLongPress == false) return;
+
+        Card.CardState = ECardState.PointUp;
+
+        Debug.Log("On Pointer Up");
     }
 
     protected virtual void OnClick(PointerEventData evt)
     {
         if (HasMoved()) return;
+        if (_IsLongPress) return;
+
         Card.CardState = ECardState.Select;
 
         Debug.Log("On Click");
@@ -275,7 +317,8 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     #region Helper
     protected bool HasMoved()
     {
-        return Card.OriginalPosition != RectTransform.position;
+        bool hasMoved = Card.OriginalPosition != RectTransform.position;
+        return hasMoved;
     }
     #endregion
 }

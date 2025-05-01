@@ -45,6 +45,9 @@ public class CardManager
 
     private void SwapCards<TCard, TUI>(List<TCard> list, TUI selected, TUI target, bool updateBothPositions) where TCard : CardBase where TUI : UI_GameScene_CardBase<TCard>
     {
+        if (selected.Card.OriginalPosition == target.Card.OriginalPosition)
+            return;
+
         int idxA = selected.Card.Order;
         int idxB = target.Card.Order;
         if (idxA == idxB) return;

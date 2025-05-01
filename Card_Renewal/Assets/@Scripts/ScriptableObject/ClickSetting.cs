@@ -1,0 +1,17 @@
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "ClickSetting", menuName = "UI/ClickSetting")]
+public class ClickSetting : ScriptableObject
+{
+    [Header("On PointDown Scale 변화 적용 여부")]
+    public bool IsApplyScaleAnimation = true;
+
+    [Header("On PointDown Scale 크기 변화")]
+    public float scaleOnSelect = 1.2f;
+
+    [Header("On PointDown Scale 위치 변화")]
+    public float scaleTransition = 0.15f;
+
+    [Header("On PointDown 그림자 위치 변화")]
+    public float shadowOffset = 20f;
+}

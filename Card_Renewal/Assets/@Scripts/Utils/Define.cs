@@ -81,6 +81,8 @@ public class Define
         None,
         Idle,
         Hover,
+        PointDown,
+        PointUp,
         Select,
         Moving,
     }
