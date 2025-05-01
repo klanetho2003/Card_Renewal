@@ -12,15 +12,9 @@ public static class Extension
         return Util.GetOrAddComponent<T>(go);
     }
 
-    public static void BindEvent(this GameObject go, Action<PointerEventData> action = null, UIEvent type = UIEvent.Click)
+    public static void BindEvent(this GameObject go, params (UIEvent eventType, Action<PointerEventData> callback)[] handlers)
     {
-        UI_Base.BindEvent(go, action, type);
-    }
-
-    public static void BindEvent(this GameObject go, Action<PointerEventData> action1, Action<PointerEventData> action2, Action<PointerEventData> action3, Action<PointerEventData> action4,
-        UIEvent type1 = UIEvent.Click, UIEvent type2 = UIEvent.None, UIEvent type3 = UIEvent.None, UIEvent type4 = UIEvent.None)
-    {
-        UI_Base.BindEvent(go, action1, action2, action3, action4, type1, type2, type3, type4);
+        UI_Base.BindEvent(go, handlers);
     }
 
     public static GameObject FindChild(this GameObject go, string name = null, bool recursive = false)

@@ -59,117 +59,53 @@ public abstract class UI_Base : InitBase
     protected Image GetImage(int idx) { return Get<Image>(idx); }
     protected Toggle GetToggle(int idx) { return Get<Toggle>(idx); }
     protected Slider GetSliders(int idx) { return Get<Slider>(idx); }
-    
 
-    public static void BindEvent(GameObject go, Action<PointerEventData> action = null, UIEvent type = UIEvent.Click)
+    public static void BindEvent(GameObject go, params (UIEvent eventType, Action<PointerEventData> callback)[] handlers)
     {
         UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
 
+        foreach (var (type, callback) in handlers)
+        {
+            if (type == UIEvent.None || callback == null)
+                continue;
+
+            // 동일 CallBack 제거
+            Unsubscribe(evt, type, callback);
+            // 새로 추가
+            Subscribe(evt, type, callback);
+        }
+    }
+
+    #region Helpers
+    private static void Unsubscribe(UI_EventHandler evt, UIEvent type, Action<PointerEventData> cb)
+    {
         switch (type)
         {
-            case UIEvent.Click:
-                evt.OnClickHandler -= action;
-                evt.OnClickHandler += action;
-                break;
-            case UIEvent.PointerDown:
-                evt.OnPointerDownHandler -= action;
-                evt.OnPointerDownHandler += action;
-                break;
-            case UIEvent.PointerUp:
-                evt.OnPointerUpHandler -= action;
-                evt.OnPointerUpHandler += action;
-                break;
-            case UIEvent.Drag:
-                evt.OnDragHandler -= action;
-                evt.OnDragHandler += action;
-                break;
+            case UIEvent.PointerEnter: evt.OnPointerEnterHandler    -= cb; break;
+            case UIEvent.PointerExit: evt.OnPointerExitHandler      -= cb; break;
+            case UIEvent.PointerDown: evt.OnPointerDownHandler      -= cb; break;
+            case UIEvent.PointerUp: evt.OnPointerUpHandler          -= cb; break;
+            case UIEvent.Click: evt.OnClickHandler                  -= cb; break;
+            case UIEvent.BeginDrag: evt.OnDragHandler               -= cb; break;
+            case UIEvent.Drag: evt.OnDragHandler                    -= cb; break;
+            case UIEvent.EndDrag: evt.OnDragHandler                 -= cb; break;
         }
     }
 
-    public static void BindEvent(GameObject go, Action<PointerEventData> action1, Action<PointerEventData> action2, Action<PointerEventData> action3, Action<PointerEventData> action4,
-        UIEvent type1 = UIEvent.Click, UIEvent type2 = UIEvent.None, UIEvent type3 = UIEvent.None, UIEvent type4 = UIEvent.None)
+    // 내부 헬퍼: 서브스크라이브
+    private static void Subscribe(UI_EventHandler evt, UIEvent type, Action<PointerEventData> cb)
     {
-
-        UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
-
-        switch (type1)
+        switch (type)
         {
-            case UIEvent.Click:
-                evt.OnClickHandler -= action1;
-                evt.OnClickHandler += action1;
-                break;
-            case UIEvent.PointerDown:
-                evt.OnPointerDownHandler -= action1;
-                evt.OnPointerDownHandler += action1;
-                break;
-            case UIEvent.PointerUp:
-                evt.OnPointerUpHandler -= action1;
-                evt.OnPointerUpHandler += action1;
-                break;
-            case UIEvent.Drag:
-                evt.OnDragHandler -= action1;
-                evt.OnDragHandler += action1;
-                break;
-        }
-
-        switch (type2)
-        {
-            case UIEvent.Click:
-                evt.OnClickHandler -= action2;
-                evt.OnClickHandler += action2;
-                break;
-            case UIEvent.PointerDown:
-                evt.OnPointerDownHandler -= action2;
-                evt.OnPointerDownHandler += action2;
-                break;
-            case UIEvent.PointerUp:
-                evt.OnPointerUpHandler -= action2;
-                evt.OnPointerUpHandler += action2;
-                break;
-            case UIEvent.Drag:
-                evt.OnDragHandler -= action2;
-                evt.OnDragHandler += action2;
-                break;
-        }
-
-        switch (type3)
-        {
-            case UIEvent.Click:
-                evt.OnClickHandler -= action3;
-                evt.OnClickHandler += action3;
-                break;
-            case UIEvent.PointerDown:
-                evt.OnPointerDownHandler -= action3;
-                evt.OnPointerDownHandler += action3;
-                break;
-            case UIEvent.PointerUp:
-                evt.OnPointerUpHandler -= action3;
-                evt.OnPointerUpHandler += action3;
-                break;
-            case UIEvent.Drag:
-                evt.OnDragHandler -= action3;
-                evt.OnDragHandler += action3;
-                break;
-        }
-
-        switch (type4)
-        {
-            case UIEvent.Click:
-                evt.OnClickHandler -= action4;
-                evt.OnClickHandler += action4;
-                break;
-            case UIEvent.PointerDown:
-                evt.OnPointerDownHandler -= action4;
-                evt.OnPointerDownHandler += action4;
-                break;
-            case UIEvent.PointerUp:
-                evt.OnPointerUpHandler -= action4;
-                evt.OnPointerUpHandler += action4;
-                break;
-            case UIEvent.Drag:
-                evt.OnDragHandler -= action4;
-                evt.OnDragHandler += action4;
-                break;
+            case UIEvent.PointerEnter: evt.OnPointerEnterHandler    += cb; break;
+            case UIEvent.PointerExit: evt.OnPointerExitHandler      += cb; break;
+            case UIEvent.PointerDown: evt.OnPointerDownHandler      += cb; break;
+            case UIEvent.PointerUp: evt.OnPointerUpHandler          += cb; break;
+            case UIEvent.Click: evt.OnClickHandler                  += cb; break;
+            case UIEvent.BeginDrag: evt.OnDragHandler               += cb; break;
+            case UIEvent.Drag: evt.OnDragHandler                    += cb; break;
+            case UIEvent.EndDrag: evt.OnDragHandler                 += cb; break;
         }
     }
+    #endregion
 }

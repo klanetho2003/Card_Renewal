@@ -25,11 +25,10 @@ public class UI_TitleScene : UI_Scene
         BindObjects(typeof(GameObjects));
         BindTexts(typeof(Texts));
 
-        GetObject((int)GameObjects.TouchArea).BindEvent((evt) =>
-        {
-            Debug.Log("ChangeScene");
-            Managers.Scene.LoadScene(EScene.GameScene);
-        });
+        GetObject((int)GameObjects.TouchArea).BindEvent(
+            (UIEvent.Click,
+            (evt) => { Debug.Log("ChangeScene"); Managers.Scene.LoadScene(EScene.GameScene); }
+        ));
 
         GetObject((int)GameObjects.TouchArea).gameObject.SetActive(false);
         GetText((int)Texts.Text).text = $"";

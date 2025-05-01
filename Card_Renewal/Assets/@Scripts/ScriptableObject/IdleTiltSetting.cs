@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "UI/IdleTiltSettings", fileName = "IdleTiltSettings")]
-public class IdleTiltSettings : ScriptableObject
+[CreateAssetMenu(fileName = "IdleTiltSetting", menuName = "UI/IdleTiltSetting")]
+public class IdleTiltSetting : ScriptableObject
 {
     [Header("Idle Tilt 최대 각도")]
     public float maxAngle = 15f;

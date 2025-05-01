@@ -22,13 +22,7 @@ MonoBehaviour:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4169d63c70c5d1d44afd8a24615dfbcc
-    m_Address: UI_GameSceneMatch_Card
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8a41968923ad8a8488c252426e1acb8d
-    m_Address: UI_GameScenePVP_Card
+    m_Address: UI_GameScene_CardPrefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad

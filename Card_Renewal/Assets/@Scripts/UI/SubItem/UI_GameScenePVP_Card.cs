@@ -12,21 +12,6 @@ public class UI_GameScenePVP_Card : UI_GameScene_CardBase<PvpCard>
         if (base.Init() == false)
             return false;
 
-        RectTransform = GetComponent<RectTransform>();
-
-        #region Bind
-        BindButtons(typeof(Buttons));
-        BindImages(typeof(Images));
-        #endregion
-
-        #region Event Bind
-        GetButton((int)Buttons.CardButton).gameObject.BindEvent
-            (
-            OnClick,  OnBeginDrag,  OnDrag,   OnEndDrag,
-            UIEvent.Click,      UIEvent.PointerDown,    UIEvent.Drag,       UIEvent.PointerUp
-            );
-        #endregion
-
         return true;
     }
 
@@ -53,6 +38,31 @@ public class UI_GameScenePVP_Card : UI_GameScene_CardBase<PvpCard>
     }
 
     #region Event Handle
+    protected override void OnPointerEnter(PointerEventData evt)
+    {
+        base.OnPointerEnter(evt);
+    }
+
+    protected override void OnPointerExit(PointerEventData evt)
+    {
+        base.OnPointerExit(evt);
+    }
+
+    protected override void OnPointerDown(PointerEventData evt)
+    {
+        base.OnPointerDown(evt);
+    }
+
+    protected override void OnPointerUp(PointerEventData evt)
+    {
+        if (HasMoved())
+        {
+            Debug.Log("On Up Button");
+        }
+
+        base.OnPointerUp(evt);
+    }
+
     protected override void OnClick(PointerEventData evt)
     {
         base.OnClick(evt);
@@ -80,11 +90,6 @@ public class UI_GameScenePVP_Card : UI_GameScene_CardBase<PvpCard>
 
     protected override void OnEndDrag(PointerEventData evt)
     {
-        if (HasMoved())
-        {
-            Debug.Log("On Up Button");
-        }
-
         base.OnEndDrag(evt);
     }
     #endregion

@@ -26,10 +26,15 @@ public class Define
     public enum UIEvent
     {
         None,
+
+        PointerEnter,
+        PointerExit,
         Click,
+
         Pressed,
         PointerDown,
         PointerUp,
+
         BeginDrag,
         Drag,
         EndDrag,
@@ -75,6 +80,8 @@ public class Define
     {
         None,
         Idle,
+        Hover,
+        Select,
         Moving,
     }
 

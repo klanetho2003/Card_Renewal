@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static Define;
@@ -6,6 +7,11 @@ using static Define;
 public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 {
     #region Enum to Bind
+    protected enum GameObjects
+    {
+        CardButton,
+    }
+
     protected enum Buttons
     {
         CardButton,
@@ -20,6 +26,15 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     public T Card { get; protected set; }
 
+    protected CardManager _cardManager { get { return Managers.CardManager; } }
+
+    public RectTransform RectTransform { get; protected set; }
+    public RectTransform ImageRectTransform { get; protected set; }
+
+    // Scriptable Objects
+    private IdleTiltSetting _tiltSetting;
+    private HoverSetting _hoverSetting;
+
     ECardState _cardUIState = ECardState.None;
     public ECardState CardUIState
     {
@@ -28,22 +43,12 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         {
             if (_cardUIState == value) return;
 
+            ECardState lastState = _cardUIState;
             _cardUIState = value;
 
-            switch (value)
-            {
-                case ECardState.Idle:
-                    startOffset = Random.Range(0f, Mathf.PI * 2f);
-                    break;
-                case ECardState.Moving:
-                    break;
-            }
+            PlayAnimation(value, lastState);
         }
     }
-
-    protected CardManager _cardManager { get { return Managers.CardManager; } }
-
-    public RectTransform RectTransform { get; protected set; }
 
     #region Init & SetInfo
     public override bool Init()
@@ -51,7 +56,30 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         if (base.Init() == false)
             return false;
 
-        tiltSettings = Managers.Resource.Load<IdleTiltSettings>("IdleTiltSettings");
+        RectTransform = GetComponent<RectTransform>();
+
+        _tiltSetting = Managers.Resource.Load<IdleTiltSetting>("IdleTiltSetting");
+        _hoverSetting = Managers.Resource.Load<HoverSetting>("HoverSetting");
+
+        #region Bind
+        BindObjects(typeof(GameObjects));
+        BindButtons(typeof(Buttons));
+        BindImages(typeof(Images));
+        #endregion
+
+        #region Event Bind
+        GetButton((int)Buttons.CardButton).gameObject.BindEvent
+            (
+            (UIEvent.PointerEnter,  OnPointerEnter),
+            (UIEvent.PointerExit,   OnPointerExit),
+            (UIEvent.PointerDown,   OnPointerDown),
+            (UIEvent.PointerUp,     OnPointerUp),
+            (UIEvent.Click,         OnClick),
+            (UIEvent.BeginDrag,     OnBeginDrag),
+            (UIEvent.Drag,          OnDrag),
+            (UIEvent.EndDrag,       OnEndDrag)
+            );
+        #endregion
 
         return true;
     }
@@ -67,6 +95,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         // SetActive -> 1프레임 뒤에 Position Setting // GridLayGroup 초기화 이슈,
         gameObject.SetActive(true);
+        ImageRectTransform = GetObject((int)GameObjects.CardButton).GetComponent<RectTransform>();
         StartCoroutine(CaptureOriginalNextFrame());
 
         // Init State
@@ -84,56 +113,6 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     }
     #endregion
 
-    #region Update
-    private void Update()
-    {
-        OnUpdate();
-    }
-
-    private void OnUpdate()
-    {
-        switch (CardUIState)
-        {
-            case ECardState.Idle:
-                UpdateIdle();
-                break;
-            case ECardState.Moving:
-                UpdateMoving();
-                break;
-        }
-    }
-    
-    protected virtual void UpdateIdle()
-    {
-        CardTilt();
-    }
-    protected virtual void UpdateMoving() { }
-    protected virtual void UpdateAdd() { }
-    protected virtual void UpdateRemove() { }
-    #endregion
-
-    #region Animation & Tweeing
-    private float startOffset; // 시작 시점을 달리하여, 각 카드가 다른 Motion일 수 있도록 만들기 위함
-    private IdleTiltSettings tiltSettings;
-    private void CardTilt()
-    {
-        // 사인, 코사인 계산
-        float time = Time.time + startOffset;
-        float sinValue = Mathf.Sin(time);
-        float cosValue = Mathf.Cos(time);
-
-        // 현재 Euler 각도 읽기
-        Vector3 euler = RectTransform.eulerAngles;
-
-        // X, Y 축 각각 LerpAngle 보간
-        float newX = Mathf.LerpAngle(euler.x, sinValue * tiltSettings.maxAngle, tiltSettings.lerpSpeed * Time.deltaTime);
-        float newY = Mathf.LerpAngle(euler.y, cosValue * tiltSettings.maxAngle, tiltSettings.lerpSpeed * Time.deltaTime);
-
-        // Apply
-        RectTransform.eulerAngles = new Vector3(newX, newY, 0f);
-    }
-    #endregion
-
     public void UpdatePositionFromCard()
     {
         RectTransform.position = Card.OriginalPosition;
@@ -147,27 +126,140 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         return true;
     }
 
+    #region Animation
+
+    void PlayAnimation(ECardState currentUiState, ECardState lastUiState)
+    {
+        if (_coCardTilt != null) StopCoroutine(_coCardTilt); _coCardTilt = null;
+        if (lastUiState == ECardState.Hover) PlayDeHoverAnim();
+
+        switch (currentUiState)
+        {
+            case ECardState.Idle:
+                PlayIdleAnim();
+                break;
+            case ECardState.Hover:
+                PlayHoverAnim();
+                break;
+            case ECardState.Select:
+                break;
+            case ECardState.Moving:
+                break;
+        }
+    }
+
+    #region Idle Animation
+    protected virtual void PlayIdleAnim()
+    {
+        startOffset = Random.Range(0f, Mathf.PI * 2f); // Animation 시작 지점 조정
+
+        _coCardTilt = StartCoroutine(CoCardTilt());
+    }
+
+    Coroutine _coCardTilt;
+    IEnumerator CoCardTilt()
+    {
+        while (Card.CardState == ECardState.Idle)
+        {
+            CardTilt();
+            yield return null;
+        }
+    }
+
+    private float startOffset; // 시작 시점을 달리하여, 각 카드가 다른 Motion일 수 있도록 만들기 위함
+    private void CardTilt()
+    {
+        // 사인, 코사인 계산
+        float time = Time.time + startOffset;
+        float sinValue = Mathf.Sin(time);
+        float cosValue = Mathf.Cos(time);
+
+        // 현재 Euler 각도 읽기
+        Vector3 euler = ImageRectTransform.eulerAngles;
+
+        // X, Y 축 각각 LerpAngle 보간
+        float newX = Mathf.LerpAngle(euler.x, sinValue * _tiltSetting.maxAngle, _tiltSetting.lerpSpeed * Time.deltaTime);
+        float newY = Mathf.LerpAngle(euler.y, cosValue * _tiltSetting.maxAngle, _tiltSetting.lerpSpeed * Time.deltaTime);
+
+        // Apply
+        ImageRectTransform.eulerAngles = new Vector3(newX, newY, 0f);
+    }
+    #endregion
+
+    #region Hover Animation
+    protected virtual void PlayHoverAnim()
+    {
+        if (_hoverSetting.IsApplyScaleAnimation)
+            RectTransform.DOScale(_hoverSetting.scaleOnHover, _hoverSetting.scaleTransition).SetEase(Ease.OutBack);
+
+        DOTween.Kill(2, true);
+        RectTransform.DOPunchRotation(Vector3.forward * _hoverSetting.hoverPunchAngle, _hoverSetting.hoverTransition, 20, 1).SetId(2);
+
+    }
+
+    private void PlayDeHoverAnim(float deltaFromOriginalSize = 1) // 1 -> OriginSize
+    {
+        RectTransform.DOScale(1, _hoverSetting.scaleTransition).SetEase(Ease.OutBack);
+    }
+    #endregion
+
+    #endregion
+
     #region Event Handle
-    protected virtual void OnClick(PointerEventData evt)
+    protected virtual void OnPointerEnter(PointerEventData evt)
+    {
+        Card.CardState = ECardState.Hover;
+
+        Debug.Log("On PointerEnter");
+    }
+
+    protected virtual void OnPointerExit(PointerEventData evt)
     {
         if (HasMoved()) return;
-        Card.CardState = ECardState.Idle; // To Do : Select State
 
-        Debug.Log("On Click");
+        Card.CardState = ECardState.Idle;
+
+        Debug.Log("On PointerExit");
     }
 
     protected Vector3 _dragOffset;
-    protected virtual void OnBeginDrag(PointerEventData evt)
+    protected virtual void OnPointerDown(PointerEventData evt)
     {
         _dragOffset = RectTransform.position - (Vector3)evt.position;
-        Card.CardState = ECardState.Moving;
+    }
 
-        Debug.Log("On Begin Drag");
+    protected virtual void OnPointerUp(PointerEventData evt)
+    {
+        /*if (scaleAnimations)
+            transform.DOScale(longPress ? scaleOnHover : scaleOnSelect, scaleTransition).SetEase(scaleEase);
+
+        visualShadow.localPosition = shadowDistance;*/
+
+        Card.CardState = ECardState.Idle;
+        RectTransform.position = Card.OriginalPosition;
+        GetImage((int)Images.CardButton).raycastTarget = true;
+
+        Debug.Log("On End Drag");
+    }
+
+    protected virtual void OnClick(PointerEventData evt)
+    {
+        if (HasMoved()) return;
+        Card.CardState = ECardState.Select;
+
+        Debug.Log("On Click");
+    }
+    
+    protected virtual void OnBeginDrag(PointerEventData evt)
+    {
+        
     }
 
     protected virtual void OnDrag(PointerEventData evt)
     {
         Debug.Log($"On Drag");
+
+        Card.CardState = ECardState.Moving;
 
         GetImage((int)Images.CardButton).raycastTarget = false;
 
@@ -176,9 +268,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     protected virtual void OnEndDrag(PointerEventData evt)
     {
-        Card.CardState = ECardState.Idle;
-        RectTransform.position = Card.OriginalPosition;
-        GetImage((int)Images.CardButton).raycastTarget = true;
+        
     }
     #endregion
 

@@ -60,12 +60,12 @@ public class UI_GameScene : UI_Scene
         RefreshCards(_cardUIList_MATCH, Managers.CardManager.MatchCards);
     }
 
-    private void InitializeCardUI<TUI, TCard>(List<TUI> uiList, Transform parent) where TUI : UI_GameScene_CardBase<TCard> where TCard : CardBase
+    private void InitializeCardUI<TUI, TCard>(List<TUI> uiList, Transform parent, string profabName = "UI_GameScene_CardPrefab") where TUI : UI_GameScene_CardBase<TCard> where TCard : CardBase
     {
         uiList.Clear();
         for (int i = 0; i < MAX_ITEM_COUNT; i++)
         {
-            var cardUI = Managers.UI.MakeSubItem<TUI>(parent);
+            var cardUI = Managers.UI.MakeSubItem<TUI>(parent: parent, name: profabName);
             cardUI.gameObject.SetActive(false);
             uiList.Add(cardUI);
         }

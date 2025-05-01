@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38dab9eacdbd5634683b7d3b6c068c9b, type: 3}
-  m_Name: IdleTiltSettings
+  m_Name: IdleTiltSetting
   m_EditorClassIdentifier: 
   maxAngle: 15
   lerpSpeed: 40
