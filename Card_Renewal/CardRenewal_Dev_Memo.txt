@@ -5,3 +5,4 @@ To Do List
 
 - Pointer Down 시 Scale Lerp
 - Move 시 기울림
+- Card Material Add
