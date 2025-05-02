@@ -1,5 +1,7 @@
 To Do List
 
-Animation 디벨롭
+[ Animation 디벨롭 ]
 
-PointerUp -> Idle에서 문제가 생길 수 있음
+
+- Pointer Down 시 Scale Lerp
+- Move 시 기울림

@@ -82,7 +82,7 @@ public class Define
         Idle,
         Hover,
         PointDown,
-        PointUp,
+        // PointUp,
         Select,
         Moving,
     }

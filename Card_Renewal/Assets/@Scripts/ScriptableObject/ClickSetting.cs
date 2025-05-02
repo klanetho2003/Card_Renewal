@@ -14,4 +14,7 @@ public class ClickSetting : ScriptableObject
 
     [Header("On PointDown 그림자 위치 변화")]
     public float shadowOffset = 20f;
+
+    [Header("Select 시 흔들림 크기")]
+    public float selectPunchAmount = 20f;
 }

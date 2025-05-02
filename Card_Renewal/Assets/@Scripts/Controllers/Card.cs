@@ -35,7 +35,7 @@ public class CardBase
                 if (value != ECardState.Select)
                     return;
 
-                value = ECardState.PointUp;
+                value = ECardState.Idle;
             }
                 
             if (_cardState == value)

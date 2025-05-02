@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxAngle: 15
   lerpSpeed: 40
+  hsMaxAngle: 9
