@@ -57,7 +57,7 @@ public class UI_GameSceneMatch_Card : UI_GameScene_CardBase<MatchCard>
         if (HasMoved())
         {
             if (!TrySwap(evt, isBoth: true))
-                RectTransform.position = base.Card.OriginalPosition;
+                SysRectTransform.position = base.Card.OriginalPosition;
 
             Debug.Log("On Up Button");
         }

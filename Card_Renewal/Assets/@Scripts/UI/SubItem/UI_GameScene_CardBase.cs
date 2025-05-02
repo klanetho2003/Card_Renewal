@@ -29,9 +29,9 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     protected CardManager _cardManager { get { return Managers.CardManager; } }
 
-    public RectTransform RectTransform { get; protected set; }
-    public RectTransform ImageRectTransform { get; protected set; }
-    public RectTransform ShadowRectTransform { get; protected set; }
+    public RectTransform SysRectTransform { get; protected set; }       // System적으로 영향을 주는 Rect - ex 카드 Swap
+    public RectTransform ImageRectTransform { get; protected set; }     // Tweening에 사용되는 Rect
+    public RectTransform ShadowRectTransform { get; protected set; }    // 카드 그림자
 
     // Scriptable Objects
     private IdleTiltSetting _tiltSetting;
@@ -49,7 +49,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         if (base.Init() == false)
             return false;
 
-        RectTransform = GetComponent<RectTransform>();
+        SysRectTransform = GetComponent<RectTransform>();
 
         _tiltSetting = Managers.Resource.Load<IdleTiltSetting>("IdleTiltSetting");
         _hoverSetting = Managers.Resource.Load<HoverSetting>("HoverSetting");
@@ -89,16 +89,18 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         // SetActive -> 1프레임 뒤에 Position Setting // GridLayGroup 초기화 이슈,
         gameObject.SetActive(true);
+
         ImageRectTransform = GetObject((int)GameObjects.CardButton).GetComponent<RectTransform>();
         ShadowRectTransform = GetObject((int)GameObjects.CardShadow).GetComponent<RectTransform>();
         _originShadowPosition = ShadowRectTransform.localPosition;
+
         StartCoroutine(CaptureOriginalNextFrame());
     }
 
     IEnumerator CaptureOriginalNextFrame()
     {
         yield return new WaitForEndOfFrame();
-        Card.OriginalPosition = RectTransform.position;
+        Card.OriginalPosition = SysRectTransform.position;
 
         PlayAnimation(ECardState.Idle, ECardState.None);
     }
@@ -106,7 +108,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     public void UpdatePositionFromCard()
     {
-        RectTransform.position = Card.OriginalPosition;
+        SysRectTransform.position = Card.OriginalPosition;
     }
 
     protected virtual bool TrySwap(PointerEventData evt, bool isBoth)
@@ -200,16 +202,16 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     protected virtual void PlayHoverAnim()
     {
         if (_hoverSetting.IsApplyScaleAnimation)
-            RectTransform.DOScale(_hoverSetting.scaleOnHover, _hoverSetting.scaleTransition).SetEase(Ease.OutBack);
+            ImageRectTransform.DOScale(_hoverSetting.scaleOnHover, _hoverSetting.scaleTransition).SetEase(Ease.OutBack);
 
         DOTween.Kill(2, true);
-        RectTransform.DOPunchRotation(Vector3.forward * _hoverSetting.hoverPunchAngle, _hoverSetting.hoverTransition, 20, 1).SetId(2);
+        ImageRectTransform.DOPunchRotation(Vector3.forward * _hoverSetting.hoverPunchAngle, _hoverSetting.hoverTransition, 20, 1).SetId(2);
 
     }
 
     protected virtual void PlayDeHoverAnim(float deltaFromOriginalSize = 1) // 1 -> OriginSize
     {
-        RectTransform.DOScale(deltaFromOriginalSize, _hoverSetting.scaleTransition).SetEase(Ease.OutBack);
+        ImageRectTransform.DOScale(deltaFromOriginalSize, _hoverSetting.scaleTransition).SetEase(Ease.OutBack);
     }
     #endregion
 
@@ -217,7 +219,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     protected virtual void PlayPointerDown()
     {
         if (_clickSetting.IsApplyScaleAnimation)
-            RectTransform.DOScale(_clickSetting.scaleOnSelect, _clickSetting.scaleTransition).SetEase(Ease.OutBack);
+            ImageRectTransform.DOScale(_clickSetting.scaleOnSelect, _clickSetting.scaleTransition).SetEase(Ease.OutBack);
 
         ShadowRectTransform.localPosition += (-Vector3.up * _clickSetting.shadowOffset);
     }
@@ -226,7 +228,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     protected virtual void PlayPointerUp(float deltaFromOriginalSize = 1) // 1 -> OriginSize
     {
         if (_clickSetting.IsApplyScaleAnimation)
-            RectTransform.DOScale(deltaFromOriginalSize, _clickSetting.scaleTransition).SetEase(Ease.OutBack);
+            ImageRectTransform.DOScale(deltaFromOriginalSize, _clickSetting.scaleTransition).SetEase(Ease.OutBack);
 
         ShadowRectTransform.localPosition = _originShadowPosition;
 
@@ -262,14 +264,14 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     {
         Card.CardState = ECardState.PointDown;
 
-        _dragOffset = RectTransform.position - (Vector3)evt.position;
+        _dragOffset = SysRectTransform.position - (Vector3)evt.position;
 
         _pointerDownTime = Time.time;
     }
 
     protected virtual void OnPointerUp(PointerEventData evt)
     {
-        RectTransform.position = Card.OriginalPosition;
+        SysRectTransform.position = Card.OriginalPosition;
         GetImage((int)Images.CardButton).raycastTarget = true;
 
         float pointerUpTime = Time.time;
@@ -305,7 +307,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         GetImage((int)Images.CardButton).raycastTarget = false;
 
-        RectTransform.position = (Vector3)evt.position + _dragOffset;
+        SysRectTransform.position = (Vector3)evt.position + _dragOffset;
     }
 
     protected virtual void OnEndDrag(PointerEventData evt)
@@ -315,10 +317,10 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     #endregion
 
     #region Helper
+    const float EPS = 0.01f;
     protected bool HasMoved()
     {
-        bool hasMoved = Card.OriginalPosition != RectTransform.position;
-        return hasMoved;
+        return (Card.OriginalPosition - SysRectTransform.position).sqrMagnitude > EPS * EPS;
     }
     #endregion
 }

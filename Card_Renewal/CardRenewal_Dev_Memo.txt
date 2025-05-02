@@ -2,6 +2,4 @@ To Do List
 
 Animation 디벨롭
 
-- Move
-- Select
-- Point Enter
+PointerUp -> Idle에서 문제가 생길 수 있음
