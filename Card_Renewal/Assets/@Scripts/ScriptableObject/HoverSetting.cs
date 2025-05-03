@@ -9,8 +9,8 @@ public class HoverSetting : ScriptableObject
     [Header("Hovering 크기 변화")]
     public float scaleOnHover = 1.07f;
 
-    [Header("Hovering 위치 변화")]
-    public float scaleTransition = 0.15f;
+    [Header("Hovering 위치 변화에 걸리는 시간")]
+    public float scaleDuration = 0.15f;
 
     [Header("Hover Trigger Animation 흔들림 강도")]
     public float hoverPunchAngle = 5f;

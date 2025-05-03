@@ -54,7 +54,7 @@ public class UI_GameSceneMatch_Card : UI_GameScene_CardBase<MatchCard>
 
     protected override void OnPointerUp(PointerEventData evt)
     {
-        if (HasMoved())
+        if (Util.IsMagnitudeEqual(Card.OriginalPosition, SystemRectTransform.position))
         {
             if (!TrySwap(evt, isBoth: true))
                 SystemRectTransform.position = base.Card.OriginalPosition;
@@ -65,9 +65,9 @@ public class UI_GameSceneMatch_Card : UI_GameScene_CardBase<MatchCard>
         base.OnPointerUp(evt);
     }
 
-    protected override void OnClick(PointerEventData evt)
+    protected override void OnClick()
     {
-        base.OnClick(evt);
+        base.OnClick();
     }
 
     protected override void OnBeginDrag(PointerEventData evt)

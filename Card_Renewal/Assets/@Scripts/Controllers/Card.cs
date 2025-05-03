@@ -18,6 +18,7 @@ public class CardBase
     public ETeamColor TeamColor { get; protected set; } = ETeamColor.None;
 
     public int Order { get; set; }
+    public bool IsSelected { get; set; } = false;
 
     public Vector3 OriginalPosition { get; set; }
 
@@ -30,14 +31,20 @@ public class CardBase
         get { return _cardState; }
         set
         {
-            if (_cardState == ECardState.Select)
+            if (IsSelected == true)
             {
-                if (value != ECardState.Select)
-                    return;
-
-                value = ECardState.Idle;
+                switch (value)
+                {
+                    case ECardState.Idle:
+                    case ECardState.Hover:
+                    case ECardState.Moving:
+                        return;
+                    case ECardState.PointDown:
+                    case ECardState.Select:
+                        break;
+                }
             }
-                
+
             if (_cardState == value)
                 return;
 

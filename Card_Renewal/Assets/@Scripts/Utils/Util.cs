@@ -80,6 +80,12 @@ public static class Util
         return refPos + rotated;
     }
 
+    const float EPS = 0.01f;
+    public static bool IsMagnitudeEqual(Vector3 vector_A, Vector3 vector_B)
+    {
+        return (vector_A - vector_B).sqrMagnitude < EPS * EPS;
+    }
+
     // 갓챠
     public static T RandomElementByWeight<T>(this IEnumerable<T> sequence, Func<T, float> weightSelector)
     {

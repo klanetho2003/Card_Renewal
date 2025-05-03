@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: ClickSetting
   m_EditorClassIdentifier: 
   IsApplyScaleAnimation: 1
-  scaleOnSelect: 1.2
+  scaleOnSelect: 1.4
   scaleTransition: 0.15
   shadowOffset: 20
   selectPunchAmount: 20
+  selectPositionY_Offset: 70

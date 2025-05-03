@@ -2,7 +2,15 @@ To Do List
 
 [ Animation 디벨롭 ]
 
+1.  Move 시 기울림
+2. Card Material Add
+3. Hover 시 기울림 (Update하나파고 Hover State일 떄 Mouse Event위치 기반으로 각도를움직이면 되지 않을까)
 
-- Pointer Down 시 Scale Lerp
-- Move 시 기울림
-- Card Material Add
+
+[ Parsing ]
+- Card Spawn 개수 
+-  Card Size
+
+
+
+

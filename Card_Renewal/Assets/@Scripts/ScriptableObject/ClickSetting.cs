@@ -17,4 +17,7 @@ public class ClickSetting : ScriptableObject
 
     [Header("Select 시 흔들림 크기")]
     public float selectPunchAmount = 20f;
+
+    [Header("Select 중일 때 Card y좌표 변화")]
+    public float selectPositionY_Offset = 40f;
 }

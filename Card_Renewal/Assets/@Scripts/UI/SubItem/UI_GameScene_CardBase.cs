@@ -15,9 +15,9 @@ public interface ICardAnimator
     void ResetToIdle();
 }
 
-public class CardAnimator : ICardAnimator
+public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardBase<T> where T : CardBase
 {
-    private MonoBehaviour _owner;
+    private readonly TUI _owner;
 
     private RectTransform _cardRect;
     private RectTransform _imageRect;
@@ -32,7 +32,7 @@ public class CardAnimator : ICardAnimator
     private float _tiltStartOffset;
     private Vector3 _originalShadowPos;
 
-    public CardAnimator(MonoBehaviour owner, RectTransform card, RectTransform image, RectTransform shadow,
+    public CardAnimator(TUI owner, RectTransform card, RectTransform image, RectTransform shadow,
         IdleTiltSetting tilt, HoverSetting hover, ClickSetting click)
     {
         _owner = owner;
@@ -49,8 +49,13 @@ public class CardAnimator : ICardAnimator
     public void PlayIdle()
     {
         _tiltStartOffset = Random.Range(0f, Mathf.PI * 2f);
+
+        PlayTilt(_tilt.maxAngle, _tilt.lerpSpeed);
+    }
+    private void PlayTilt(float maxAngle, float lerpSpeed)
+    {
         StopTilt();
-        _tiltCoroutine = _owner.StartCoroutine(CoTilt(_tilt.maxAngle, _tilt.lerpSpeed));
+        _tiltCoroutine = _owner.StartCoroutine(CoTilt(maxAngle, lerpSpeed));
     }
 
     IEnumerator CoTilt(float maxAngle, float lerpSpeed)
@@ -73,16 +78,14 @@ public class CardAnimator : ICardAnimator
     public void PlayHover()
     {
         if (_hover.IsApplyScaleAnimation)
-            _cardRect.DOScale(_hover.scaleOnHover, _hover.scaleTransition).SetEase(Ease.OutBack);
-
-        StopTilt();
+            _cardRect.DOScale(_hover.scaleOnHover, _hover.scaleDuration).SetEase(Ease.OutBack);
 
         _imageRect
         .DOPunchRotation(Vector3.forward * _hover.hoverPunchAngle, _hover.hoverTransition, 20, 1)
         .OnComplete(() =>
         {
             // 애니메이션 끝나면 실행
-            _tiltCoroutine = _owner.StartCoroutine(CoTilt(_tilt.hsMaxAngle, _tilt.lerpSpeed));
+            PlayTilt(_tilt.hsMaxAngle, _tilt.lerpSpeed);
         });
     }
 
@@ -96,29 +99,50 @@ public class CardAnimator : ICardAnimator
 
     public void PlaySelect()
     {
-        _imageRect.DOPunchPosition(_cardRect.up * _click.selectPunchAmount, _click.scaleTransition);
-        _imageRect.DOPunchRotation(Vector3.forward * (_hover.hoverPunchAngle / 2), _hover.hoverTransition, 20, 1);
+        _cardRect.localPosition += (_cardRect.up * _click.selectPositionY_Offset);
 
-        /*if (_click.IsApplyScaleAnimation) // Hover 크기로 돌아감
-            _imageRect.DOScale(_hover.scaleOnHover, _hover.scaleTransition).SetEase(Ease.OutBack);*/
+        Sequence selectSequence = DOTween.Sequence();
+        selectSequence
+            .Append(_imageRect.DOPunchPosition(_cardRect.up * _click.selectPunchAmount, _click.scaleTransition))
+            .Join(_imageRect.DOPunchRotation(Vector3.forward * (_hover.hoverPunchAngle / 2), _hover.hoverTransition, 20, 1))
+            .OnComplete(() =>
+            {
+                // Card 작아지고
+                _cardRect.DOScale(Vector3.one, _hover.scaleDuration).SetEase(Ease.OutBack)
 
-        _cardRect.localPosition += (_cardRect.up * 25);
+                .OnComplete(() =>
+                {
+                    // Tilt 재생
+                    PlayTilt(_tilt.hsMaxAngle, _tilt.lerpSpeed);
+                });
+            });
+
+        selectSequence.Play();
     }
 
     public void ResetToIdle()
     {
+        StopTilt();
         DOTween.Kill(_imageRect);
-        _cardRect.localPosition = Vector3.zero;
-        _cardRect.localScale = Vector3.one;
+
+        if (Util.IsMagnitudeEqual(_cardRect.localScale, Vector3.one) == false)
+            _cardRect.DOScale(Vector3.one, _hover.scaleDuration).SetEase(Ease.OutBack);
+        if (_owner.Card.CardState != ECardState.PointDown)
+            _cardRect.localPosition = Vector3.zero;
+
         _imageRect.localScale = Vector3.one;
+        _imageRect.localPosition = Vector3.zero;
         _imageRect.rotation = Quaternion.identity;
+
         _shadowRect.localPosition = _originalShadowPos;
     }
 
     public void StopTilt()
     {
-        if (_tiltCoroutine != null)
-            _owner.StopCoroutine(_tiltCoroutine);
+        if (_tiltCoroutine == null)
+            return;
+
+        _owner.StopCoroutine(_tiltCoroutine);
         _tiltCoroutine = null;
     }
 }
@@ -160,12 +184,12 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     private HoverSetting _hoverSetting;
     private ClickSetting _clickSetting;
 
-    private CardAnimator _cardAnimator;
+    private CardAnimator<UI_GameScene_CardBase<T>, T> _cardAnimator;
 
     [SerializeField]
-    ECardState DebugState_1 = ECardState.None;
+    ECardState Debug_CurrentState = ECardState.None;
     [SerializeField]
-    ECardState DebugState_2 = ECardState.None;
+    ECardState Debug_LastState = ECardState.None;
 
     #region Init & SetInfo
     public override bool Init()
@@ -192,7 +216,6 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
             (UIEvent.PointerExit,   OnPointerExit),
             (UIEvent.PointerDown,   OnPointerDown),
             (UIEvent.PointerUp,     OnPointerUp),
-            (UIEvent.Click,         OnClick),
             (UIEvent.BeginDrag,     OnBeginDrag),
             (UIEvent.Drag,          OnDrag),
             (UIEvent.EndDrag,       OnEndDrag)
@@ -221,7 +244,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         ShadowRectTransform = GetObject((int)GameObjects.CardShadow).GetComponent<RectTransform>();
 
         // Add Animtor
-        _cardAnimator = new CardAnimator(this,
+        _cardAnimator = new CardAnimator<UI_GameScene_CardBase<T>, T>(this,
             CardRectTransform, ImageRectTransform, ShadowRectTransform,
             _tiltSetting, _hoverSetting, _clickSetting);
     }
@@ -242,7 +265,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     protected virtual bool TrySwap(PointerEventData evt, bool isBoth)
     {
-        if (HasMoved() == false)
+        if (Util.IsMagnitudeEqual(Card.OriginalPosition, SystemRectTransform.position))
             return false;
 
         if (evt.pointerEnter == null)
@@ -255,8 +278,8 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     {
         PlayAnimation(currentState, lastState);
 
-        DebugState_1 = currentState;
-        DebugState_2 = lastState;
+        Debug_CurrentState = currentState;
+        Debug_LastState = lastState;
     }
 
     void PlayAnimation(ECardState newState, ECardState lastState)
@@ -276,7 +299,8 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     #region Event Handle
     protected virtual void OnPointerEnter(PointerEventData evt)
     {
-        if (HasMoved()) return;
+        if (Util.IsMagnitudeEqual(Card.OriginalPosition, SystemRectTransform.position) == false)
+            return;
 
         Card.CardState = ECardState.Hover;
 
@@ -285,7 +309,8 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     protected virtual void OnPointerExit(PointerEventData evt)
     {
-        if (HasMoved()) return;
+        if (Util.IsMagnitudeEqual(Card.OriginalPosition, SystemRectTransform.position) == false)
+            return;
 
         Card.CardState = ECardState.Idle;
 
@@ -299,7 +324,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     {
         Card.CardState = ECardState.PointDown;
 
-        _dragOffset = SystemRectTransform.position - (Vector3)evt.position;
+        _dragOffset = ImageRectTransform.position - (Vector3)evt.position;
 
         _pointerDownTime = Time.time;
     }
@@ -310,30 +335,50 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         SystemRectTransform.position = Card.OriginalPosition;
         GetImage((int)Images.CardButton).raycastTarget = true;
 
-        // Click 상태 전환 조건 Check
+        // 1) 마우스 버튼을 누른 시간 Check
         float pointerUpTime = Time.time;
         _IsLongPress = (pointerUpTime - _pointerDownTime > 0.2f);
-        if (_IsLongPress == false) return;
+        if (_IsLongPress == false)
+        {
+            // 2) 마우스 이동 여부 Check
+            if (Util.IsMagnitudeEqual(Card.OriginalPosition, SystemRectTransform.position))
+            {
+                OnClick();
+                return;
+            }
+        }
+
+        // 이미 IsSelected면 Selected 상태로 변경
+        if (Card.IsSelected == true)
+        {
+            Card.CardState = ECardState.Select; // (PointerDown -> Select)
+            return;
+        }
 
         Card.CardState = ECardState.Idle;
+        _IsLongPress = false;
 
         Debug.Log("On Pointer Up");
     }
 
-    protected virtual void OnClick(PointerEventData evt)
+    protected virtual void OnClick()
     {
-        if (HasMoved()) return;
-        if (_IsLongPress)
+        Debug.Log("On Click");
+
+        if (Card.IsSelected == false)
         {
-            _IsLongPress = false;
+            Card.CardState = ECardState.Select;
+            Card.IsSelected = true;
             return;
         }
 
-        Card.CardState = ECardState.Select;
-
-        Debug.Log("On Click");
+        // Card.IsSelected == true
+        {
+            Card.IsSelected = false;
+            Card.CardState = ECardState.Idle;
+        }
     }
-    
+
     protected virtual void OnBeginDrag(PointerEventData evt)
     {
         
@@ -353,14 +398,6 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     protected virtual void OnEndDrag(PointerEventData evt)
     {
         
-    }
-    #endregion
-
-    #region Helper
-    const float EPS = 0.01f;
-    protected bool HasMoved()
-    {
-        return (Card.OriginalPosition - SystemRectTransform.position).sqrMagnitude > EPS * EPS;
     }
     #endregion
 }
