@@ -7,6 +7,8 @@ using static Define;
 
 public class CardManager
 {
+    public CardBase HoldCard { get; set; } = null; // Mouse로 Hold 중인 Card
+
     public List<PvpCard> PvpCards { get; } = new List<PvpCard>();
     public List<MatchCard> MatchCards { get; } = new List<MatchCard>();
 
@@ -45,7 +47,7 @@ public class CardManager
 
     private void SwapCards<TCard, TUI>(List<TCard> list, TUI selected, TUI target, bool updateBothPositions) where TCard : CardBase where TUI : UI_GameScene_CardBase<TCard>
     {
-        if (selected.Card.OriginalPosition == target.Card.OriginalPosition)
+        if (Util.IsMagnitudeEqual(selected.Card.OriginalPosition, target.Card.OriginalPosition))
             return;
 
         int idxA = selected.Card.Order;

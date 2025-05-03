@@ -22,13 +22,27 @@ public class UI_GameScenePVP_Card : UI_GameScene_CardBase<PvpCard>
         card.CardUI = this;
         card.OnStateChanged += OnStateChanged;
     }
-    
-    private bool TrySwap(Vector3 moveDir, PointerEventData evt, UI_GameScenePVP_Card other, bool isBoth)
+
+    protected override void OnUpdate()
     {
-        if (base.TrySwap(evt, isBoth) == false)
+        base.OnUpdate();
+
+        if (Card.CardState != ECardState.Moving)
+            return;
+
+        int neighborOrder = Card.Order + (_moveDir.x > 0 ? 1 : -1);
+        _swapTarget = (neighborOrder >= 0 && neighborOrder < _cardManager.PvpCards.Count) ? _cardManager.PvpCards[neighborOrder] : null;
+
+        if (_swapTarget != null)
+            TrySwap(_moveDir, _swapTarget.CardUI, false);
+    }
+
+    private bool TrySwap(Vector3 moveDir, UI_GameScenePVP_Card other, bool isBoth)
+    {
+        if (base.TrySwap(isBoth) == false)
             return false;
 
-        float remainDestX = evt.position.x - other.Card.OriginalPosition.x; // 목적지 기준 거리 계산
+        float remainDestX = SystemRectTransform.position.x - other.Card.OriginalPosition.x; // 목적지 기준 거리 계산
         bool canSwap = (moveDir.x < 0) ? remainDestX < 0 : remainDestX > 0; // 이동 방향에 따라 Swap 가능 여부 처리
 
         if (canSwap)
@@ -79,13 +93,7 @@ public class UI_GameScenePVP_Card : UI_GameScene_CardBase<PvpCard>
     {
         base.OnDrag(evt);
 
-        // Swap
-        _moveDir = ((Vector3)evt.position - Card.OriginalPosition).normalized;
-        int neighborOrder = Card.Order + (_moveDir.x > 0 ? 1 : -1);
-        _swapTarget = (neighborOrder >= 0 && neighborOrder < _cardManager.PvpCards.Count) ? _cardManager.PvpCards[neighborOrder] : null;
-
-        if (_swapTarget != null)
-            TrySwap(_moveDir, evt, _swapTarget.CardUI, false);
+        _moveDir = Movement.normalized;
     }
 
     protected override void OnEndDrag(PointerEventData evt)

@@ -80,8 +80,7 @@ public static class Util
         return refPos + rotated;
     }
 
-    const float EPS = 0.01f;
-    public static bool IsMagnitudeEqual(Vector3 vector_A, Vector3 vector_B)
+    public static bool IsMagnitudeEqual(Vector3 vector_A, Vector3 vector_B, float EPS = 0.01f)
     {
         return (vector_A - vector_B).sqrMagnitude < EPS * EPS;
     }

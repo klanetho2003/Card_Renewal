@@ -22,9 +22,12 @@ public class UI_GameSceneMatch_Card : UI_GameScene_CardBase<MatchCard>
         card.OnStateChanged += OnStateChanged;
     }
 
-    protected override bool TrySwap(PointerEventData evt, bool isBoth)
+    private bool TrySwap(PointerEventData evt, bool isBoth)
     {
-        if (base.TrySwap(evt, isBoth) == false)
+        if (evt.pointerEnter == null)
+            return false;
+
+        if (base.TrySwap(isBoth) == false)
             return false;
 
         var other = evt.pointerEnter.GetComponentInParent<UI_GameSceneMatch_Card>();

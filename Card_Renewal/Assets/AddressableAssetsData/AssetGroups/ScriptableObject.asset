@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: ScriptableObject
   m_GUID: 36d13b3fc4a0ed34684e604775cd98cb
   m_SerializeEntries:
+  - m_GUID: 0a50b88ac4296414a8a6061421e82816
+    m_Address: MoveSetting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 115fda4ef18a3464d8eb8b46daf09940
     m_Address: HoverSetting
     m_ReadOnly: 0

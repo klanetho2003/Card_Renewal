@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a30c683b1331814fbcbf8367a868f08, type: 3}
+  m_Name: MoveSetting
+  m_EditorClassIdentifier: 
+  maxZRotation: 60
+  baseSensitivity: 100
+  minLerpSpeed: 1
+  maxLerpSpeed: 25
+  restoreLerpSpeed: 8
+  minMoveThreshold: 0.1
