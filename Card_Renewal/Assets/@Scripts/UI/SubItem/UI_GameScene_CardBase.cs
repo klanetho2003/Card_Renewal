@@ -180,7 +180,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
         StopMovingUpdate();
         _coPositionUpdate = _owner.StartCoroutine(CoCardFollowPosition(rect, destPos, () =>
         {
-            if (Util.IsMagnitudeEqual(rect.position, destPos))
+            if (Util.IsMagnitudeEqual(rect.position, destPos, EPS: 1f))
             {
                 _owner.Card.CardState = ECardState.Idle;
                 rect.position = destPos;
