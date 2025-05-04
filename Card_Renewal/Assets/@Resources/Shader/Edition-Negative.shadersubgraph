@@ -150,6 +150,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "02b35aa32aa448b9b1cd267a88352da2"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "59fcdca8a05c4d1a891c0cd9b5484991"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "034c925dc74947b4bc10d97ce4a3c8c8"
                 },
                 "m_SlotId": 2
@@ -528,20 +542,6 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "af90d499b00a4b99bbee5f7f6c192704"
-                },
-                "m_SlotId": 1
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "59fcdca8a05c4d1a891c0cd9b5484991"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
                     "m_Id": "b35ec2f72e4f48b1aff61d4e2fa34446"
                 },
                 "m_SlotId": 2
@@ -679,6 +679,7 @@
     "m_OutputNode": {
         "m_Id": "ef8f89cae69c479fa3ad0d970f275e97"
     },
+    "m_SubDatas": [],
     "m_ActiveTargets": []
 }
 
@@ -796,9 +797,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 2348.5,
+            "x": 2013.0,
             "y": 1098.0,
-            "width": 208.000244140625,
+            "width": 208.0,
             "height": 302.0
         }
     },
@@ -1606,7 +1607,7 @@
     "m_ShaderOutputName": "Edge2",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 0.14000000059604646,
+        "x": 1.0399999618530274,
         "y": 1.0,
         "z": 1.0,
         "w": 1.0
@@ -1763,7 +1764,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Contrast",
     "m_StageCapability": 3,
-    "m_Value": 0.699999988079071,
+    "m_Value": 0.6299999952316284,
     "m_DefaultValue": 1.0,
     "m_Labels": []
 }
@@ -1946,7 +1947,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "AngleOffset",
     "m_StageCapability": 3,
-    "m_Value": 0.0,
+    "m_Value": -21.0,
     "m_DefaultValue": 2.0,
     "m_Labels": []
 }
@@ -2214,7 +2215,7 @@
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "m_DefaultType": 0
@@ -2821,8 +2822,8 @@
         "y": 0.5
     },
     "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 0.5,
+        "y": 0.5
     },
     "m_Labels": []
 }
@@ -2963,11 +2964,12 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"b6c8558f7a88f480eaeb3bbd9c9a9d9e\",\"type\":3}}",
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"64af7f1d61edf024a93288f52f3deee4\",\"type\":3}}",
         "m_Guid": ""
     },
     "isMainTexture": false,
     "useTilingAndOffset": false,
+    "useTexelSize": true,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -3308,10 +3310,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 1779.0,
+            "x": 1452.0,
             "y": 1098.0,
-            "width": 183.0001220703125,
-            "height": 250.0
+            "width": 183.0,
+            "height": 249.0
         }
     },
     "m_Slots": [
@@ -3623,10 +3625,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 1352.0,
-            "y": 1967.0,
+            "x": 1291.9998779296875,
+            "y": 1966.9998779296875,
             "width": 208.0,
-            "height": 350.0
+            "height": 349.9998779296875
         }
     },
     "m_Slots": [
@@ -3729,7 +3731,7 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 2056.0,
+            "x": 1729.0,
             "y": 1098.0,
             "width": 208.0,
             "height": 391.0
@@ -3751,9 +3753,9 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_RedChannel": true,
-    "m_GreenChannel": true,
-    "m_BlueChannel": true
+    "m_RedChannel": false,
+    "m_GreenChannel": false,
+    "m_BlueChannel": false
 }
 
 {
@@ -4129,7 +4131,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 4.0,
+        "x": 3.940000057220459,
         "y": 2.0,
         "z": 2.0,
         "w": 2.0
@@ -4212,7 +4214,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Strength",
     "m_StageCapability": 3,
-    "m_Value": 0.6800000071525574,
+    "m_Value": 0.5299999713897705,
     "m_DefaultValue": 10.0,
     "m_Labels": []
 }
@@ -4229,8 +4231,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 1700.0001220703125,
-            "y": 1977.5001220703125,
+            "x": 1672.9998779296875,
+            "y": 1966.9998779296875,
             "width": 154.0,
             "height": 141.9998779296875
         }
@@ -4273,7 +4275,7 @@
     "m_ShaderOutputName": "Edge1",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 0.03999999910593033,
+        "x": 0.550000011920929,
         "y": 0.0,
         "z": 0.0,
         "w": 0.0
@@ -4298,9 +4300,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 1574.0,
+            "x": 1247.0,
             "y": 1142.0,
-            "width": 149.5,
+            "width": 149.0,
             "height": 34.0
         }
     },
@@ -4664,7 +4666,7 @@
     "m_StageCapability": 3,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "m_DefaultType": 0
@@ -4727,11 +4729,11 @@
     "m_StageCapability": 3,
     "m_Value": {
         "x": 2.7899999618530275,
-        "y": 1.0
+        "y": 0.699999988079071
     },
     "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 1.0,
+        "y": 1.0
     },
     "m_Labels": []
 }
