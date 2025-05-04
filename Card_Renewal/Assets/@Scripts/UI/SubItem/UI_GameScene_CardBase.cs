@@ -175,8 +175,11 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
 
     public void MoveTo(RectTransform rect, Vector3 destPos, bool isRayCast = true)
     {
+        if (Util.IsMagnitudeEqual(rect.position, destPos, EPS: 1f))
+            return;
+
         // Start Move -> 목적지에 도달하면 Stop Move
-        _owner.SetRayCastTargrt(isRayCast);
+        _owner.Card.CardState = ECardState.Moving;
         StopMovingUpdate();
         _coPositionUpdate = _owner.StartCoroutine(CoCardFollowPosition(rect, destPos, () =>
         {
@@ -184,7 +187,6 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
             {
                 _owner.Card.CardState = ECardState.Idle;
                 rect.position = destPos;
-                _owner.SetRayCastTargrt(true);
                 StopMovingUpdate();
             }
         }));
@@ -417,6 +419,8 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     protected virtual bool TrySwap(bool isBoth)
     {
+        if (Managers.CardManager.HoldCard != Card)
+            return false;
         // 이동 여부 Check
         if (Util.IsMagnitudeEqual(Card.OriginalPosition, SystemRectTransform.position))
             return false;
@@ -471,7 +475,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         Debug.Log("On Pointer Exit");
     }
 
-    public Vector3 Movement { get; protected set; } = Vector3.zero;
+    public Vector3 MovementByMouse { get; protected set; } = Vector3.zero;
     public Vector3 InputPosition { get; protected set; } = Vector3.zero;
     protected Vector3 _dragOffset;
     private float _pointerDownTime;
@@ -554,7 +558,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         TargetPos = (Vector3)evt.position + _dragOffset;
         InputPosition = (Vector3)evt.position;
-        Movement = InputPosition - Card.OriginalPosition;
+        MovementByMouse = InputPosition - Card.OriginalPosition;
     }
 
     protected virtual void OnEndDrag(PointerEventData evt)

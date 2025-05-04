@@ -39,6 +39,9 @@ public class UI_GameScenePVP_Card : UI_GameScene_CardBase<PvpCard>
 
     private bool TrySwap(Vector3 moveDir, UI_GameScenePVP_Card other, bool isBoth)
     {
+        if (other.Card.CardState == ECardState.Moving)
+            return false;
+
         if (base.TrySwap(isBoth) == false)
             return false;
 
@@ -93,7 +96,7 @@ public class UI_GameScenePVP_Card : UI_GameScene_CardBase<PvpCard>
     {
         base.OnDrag(evt);
 
-        _moveDir = Movement.normalized;
+        _moveDir = MovementByMouse.normalized;
     }
 
     protected override void OnEndDrag(PointerEventData evt)
