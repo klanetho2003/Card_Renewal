@@ -101,6 +101,8 @@ public class Define
         Dummy1 = 3,
         Water = 4,
         UI = 5,
+        DefaultCard = 6,
+        SelectCard = 7,
     }
 
     // Hard

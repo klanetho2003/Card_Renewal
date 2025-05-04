@@ -21,7 +21,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
     private readonly TUI _owner;
 
     private RectTransform _cardRect;
-    private RectTransform _imageRect;
+    private RectTransform _buttonRect;
     private RectTransform _shadowRect;
 
     // ScriptableObject
@@ -32,12 +32,12 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
 
     private Vector3 _originalShadowPos;
 
-    public CardAnimator(TUI owner, RectTransform card, RectTransform image, RectTransform shadow,
+    public CardAnimator(TUI owner, RectTransform card, RectTransform button, RectTransform shadow,
         IdleTiltSetting tilt, HoverSetting hover, ClickSetting click, MoveSetting move)
     {
         _owner = owner;
         _cardRect = card;
-        _imageRect = image;
+        _buttonRect = button;
         _shadowRect = shadow;
         _tilt = tilt;
         _hover = hover;
@@ -74,7 +74,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
 
             float newX = 0;
             float newY = 0;
-            Vector3 euler = _imageRect.eulerAngles;
+            Vector3 euler = _buttonRect.eulerAngles;
             if (_owner.Card.CardState == ECardState.Idle)
             {
                 newX = Mathf.LerpAngle(euler.x, sin * _tilt.maxAngle, _tilt.lerpSpeed * Time.deltaTime);
@@ -86,7 +86,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
                 newY = Mathf.LerpAngle(euler.y, cos * _tilt.hsMaxAngle, _tilt.hsMaxAngle * Time.deltaTime);
             }
 
-            _imageRect.eulerAngles = new Vector3(newX, newY, 0f);
+            _buttonRect.eulerAngles = new Vector3(newX, newY, 0f);
             yield return null;
         }
     }
@@ -96,7 +96,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
         if (_hover.IsApplyScaleAnimation)
             _cardRect.DOScale(_hover.scaleOnHover, _hover.scaleDuration).SetEase(Ease.OutBack);
 
-        _imageRect
+        _buttonRect
         .DOPunchRotation(Vector3.forward * _hover.hoverPunchAngle, _hover.hoverTransition, 20, 1)
         .OnComplete(() =>
         {
@@ -119,8 +119,8 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
 
         Sequence selectSequence = DOTween.Sequence();
         selectSequence
-            .Append(_imageRect.DOPunchPosition(_cardRect.up * _click.selectPunchAmount, _click.scaleTransition))
-            .Join(_imageRect.DOPunchRotation(Vector3.forward * (_hover.hoverPunchAngle / 2), _hover.hoverTransition, 20, 1))
+            .Append(_buttonRect.DOPunchPosition(_cardRect.up * _click.selectPunchAmount, _click.scaleTransition))
+            .Join(_buttonRect.DOPunchRotation(Vector3.forward * (_hover.hoverPunchAngle / 2), _hover.hoverTransition, 20, 1))
             .OnComplete(() =>
             {
                 // Card 작아지고
@@ -238,7 +238,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
     public void ResetToIdle()
     {
         StopAllAnimation();
-        DOTween.Kill(_imageRect);
+        DOTween.Kill(_buttonRect);
 
         // Card
         if (Util.IsMagnitudeEqual(_cardRect.localScale, Vector3.one) == false)
@@ -248,9 +248,9 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
         _cardRect.rotation = Quaternion.identity;
 
         // Image
-        _imageRect.localScale = Vector3.one;
-        _imageRect.localPosition = Vector3.zero;
-        _imageRect.rotation = Quaternion.identity;
+        _buttonRect.localScale = Vector3.one;
+        _buttonRect.localPosition = Vector3.zero;
+        _buttonRect.rotation = Quaternion.identity;
 
         // Shadow
         _shadowRect.localPosition = _originalShadowPos;
@@ -306,6 +306,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         Card,
         CardButton,
         CardShadow,
+        CardImage,
     }
 
     protected enum Buttons
@@ -327,7 +328,8 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     public Vector3 TargetPos { get; protected set; } = Vector3.zero;
 
     public RectTransform SystemRectTransform { get; protected set; }    // System적으로 사용되는 Rect - ex 카드 Swap
-    public RectTransform CardRectTransform { get; protected set; }      // ImageRectTransform & ShadowRectTransform 둘 다
+    public RectTransform CardRectTransform { get; protected set; }      // ButtonRectTransform & ShadowRectTransform 둘 다
+    public RectTransform ButtonRectTransform { get; protected set; }     // Tweening에 사용되는 Rect
     public RectTransform ImageRectTransform { get; protected set; }     // Tweening에 사용되는 Rect
     public RectTransform ShadowRectTransform { get; protected set; }    // 카드 그림자
 
@@ -394,12 +396,13 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         // Caching
         CardRectTransform = GetObject((int)GameObjects.Card).GetComponent<RectTransform>();
-        ImageRectTransform = GetObject((int)GameObjects.CardButton).GetComponent<RectTransform>();
+        ButtonRectTransform = GetObject((int)GameObjects.CardButton).GetComponent<RectTransform>();
+        ImageRectTransform = GetObject((int)GameObjects.CardImage).GetComponent<RectTransform>();
         ShadowRectTransform = GetObject((int)GameObjects.CardShadow).GetComponent<RectTransform>();
 
         // Add Animtor
         _cardAnimator = new CardAnimator<UI_GameScene_CardBase<T>, T>(this,
-            CardRectTransform, ImageRectTransform, ShadowRectTransform,
+            CardRectTransform, ButtonRectTransform, ShadowRectTransform,
             _tiltSetting, _hoverSetting, _clickSetting, _moveSetting);
     }
 
@@ -496,7 +499,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         Card.CardState = ECardState.PointDown;
 
-        _dragOffset = ImageRectTransform.position - (Vector3)evt.position;
+        _dragOffset = ButtonRectTransform.position - (Vector3)evt.position;
 
         _pointerDownTime = Time.time;
     }
