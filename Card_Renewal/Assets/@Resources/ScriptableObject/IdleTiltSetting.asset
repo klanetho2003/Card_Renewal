@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38dab9eacdbd5634683b7d3b6c068c9b, type: 3}
   m_Name: IdleTiltSetting
   m_EditorClassIdentifier: 
-  maxAngle: 15
+  maxAngle: 12
   lerpSpeed: 40
-  hsMaxAngle: 9
+  hsMaxAngle: 7

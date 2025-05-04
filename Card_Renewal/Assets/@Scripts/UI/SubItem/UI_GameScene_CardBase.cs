@@ -53,18 +53,18 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
     {
         _tiltStartOffset = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
 
-        PlayTilt(_tilt.maxAngle, _tilt.lerpSpeed);
+        PlayTilt();
 
         MoveTo(_owner.SystemRectTransform, _owner.Card.OriginalPosition, isRayCast: false);
     }
 
-    private void PlayTilt(float maxAngle, float lerpSpeed)
+    private void PlayTilt()
     {
         StopTilt();
-        _cotilt = _owner.StartCoroutine(CoTilt(maxAngle, lerpSpeed));
+        _cotilt = _owner.StartCoroutine(CoTilt());
     }
 
-    IEnumerator CoTilt(float maxAngle, float lerpSpeed)
+    IEnumerator CoTilt()
     {
         while (true)
         {
@@ -72,9 +72,19 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
             float sin = Mathf.Sin(time);
             float cos = Mathf.Cos(time);
 
+            float newX = 0;
+            float newY = 0;
             Vector3 euler = _imageRect.eulerAngles;
-            float newX = Mathf.LerpAngle(euler.x, sin * maxAngle, lerpSpeed * Time.deltaTime);
-            float newY = Mathf.LerpAngle(euler.y, cos * maxAngle, lerpSpeed * Time.deltaTime);
+            if (_owner.Card.CardState == ECardState.Idle)
+            {
+                newX = Mathf.LerpAngle(euler.x, sin * _tilt.maxAngle, _tilt.lerpSpeed * Time.deltaTime);
+                newY = Mathf.LerpAngle(euler.y, cos * _tilt.maxAngle, _tilt.lerpSpeed * Time.deltaTime);
+            }
+            else
+            {
+                newX = Mathf.LerpAngle(euler.x, sin * _tilt.hsMaxAngle, _tilt.hsMaxAngle * Time.deltaTime);
+                newY = Mathf.LerpAngle(euler.y, cos * _tilt.hsMaxAngle, _tilt.hsMaxAngle * Time.deltaTime);
+            }
 
             _imageRect.eulerAngles = new Vector3(newX, newY, 0f);
             yield return null;
@@ -91,7 +101,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
         .OnComplete(() =>
         {
             // 애니메이션 끝나면 실행
-            PlayTilt(_tilt.hsMaxAngle, _tilt.lerpSpeed);
+            PlayTilt();
         });
     }
 
@@ -119,7 +129,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
                 .OnComplete(() =>
                 {
                     // Tilt 재생
-                    PlayTilt(_tilt.hsMaxAngle, _tilt.lerpSpeed);
+                    PlayTilt();
                 });
             });
 
