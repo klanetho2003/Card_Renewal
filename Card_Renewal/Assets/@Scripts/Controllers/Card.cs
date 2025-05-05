@@ -22,36 +22,36 @@ public class CardBase
 
     public Vector3 OriginalPosition { get; set; }
 
-    public event Action<ECardState, ECardState> OnStateChanged;
+    public event Action<ECardState> OnStateChanged;
 
     private ECardState _cardState;
-    public ECardState LastCardState { get; private set; } = ECardState.None;
     public ECardState CardState
     {
         get { return _cardState; }
         set
         {
-            if (IsSelected == true)
+            switch (value)
             {
-                switch (value)
-                {
-                    case ECardState.Idle:
-                    case ECardState.Hover:
-                    case ECardState.Moving:
-                        return;
-                    case ECardState.PointDown:
-                    case ECardState.Select:
-                        break;
-                }
+                case ECardState.Idle:
+                case ECardState.Hover:
+                case ECardState.Moving:
+                    {
+                        if (IsSelected == true)
+                            return;
+                    }
+                    break;
+
+                case ECardState.PointDown:
+                case ECardState.Select:
+                    break;
             }
 
             if (_cardState == value)
                 return;
 
-            LastCardState = _cardState;
             _cardState = value;
 
-            OnStateChanged?.Invoke(value, LastCardState);
+            OnStateChanged?.Invoke(value);
         }
     }
 

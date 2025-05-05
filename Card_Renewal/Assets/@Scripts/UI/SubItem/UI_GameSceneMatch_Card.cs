@@ -32,7 +32,8 @@ public class UI_GameSceneMatch_Card : UI_GameScene_CardBase<MatchCard>
 
         var other = evt.pointerEnter.GetComponentInParent<UI_GameSceneMatch_Card>();
         if (other == null) return false;
-        if (other.Card.CardState == ECardState.Moving) return false; // 처음은 other가 아닐 수 있음
+        if (other.Card.CardState == ECardState.Moving)
+            return false;
 
         _cardManager.SwapMatchCards(this, other, isBoth);
 
