@@ -17,4 +17,4 @@ MonoBehaviour:
   scaleTransition: 0.15
   shadowOffset: 20
   selectPunchAmount: 20
-  selectPositionY_Offset: 70
+  selectPositionY_Offset: 120

@@ -38,7 +38,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     public Vector2 TargetPos { get; protected set; } = Vector2.zero;
 
-    public Canvas CardCanvas { get; protected set; }    // System적으로 사용되는 Rect - ex 카드 Swap
+    public Canvas CardCanvas { get; protected set; }
 
     public RectTransform SystemRectTransform { get; protected set; }    // System적으로 사용되는 Rect - ex 카드 Swap
     public RectTransform CardRectTransform { get; protected set; }      // ImageRectTransform & ShadowRectTransform 둘 다
@@ -200,7 +200,6 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         Debug.Log("On Pointer Exit");
     }
 
-    public Vector2 MovementByMouse { get; protected set; } = Vector2.zero;
     public Vector2 InputPosition { get; protected set; } = Vector2.zero;
     protected Vector2 _dragOffset;
     private float _pointerDownTime;
@@ -232,14 +231,11 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         if (_IsLongPress == false)
         {
             // 2) 마우스 이동 여부 Check
-            if (Util.IsMagnitudeEqual(Card.OriginalPosition, SystemRectTransform.position))
-            {
-                OnClick();
-                return;
-            }
+            OnClick();
+            return;
         }
 
-        // 이미 IsSelected면 Selected 상태로 변경
+        // 본래 Selected였으면 Select 상태로 되돌리기
         if (Card.IsSelected == true)
         {
             Card.CardState = ECardState.Select; // (PointerDown -> Select)
@@ -287,7 +283,6 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         TargetPos = evt.position + _dragOffset;
         InputPosition = evt.position;
-        MovementByMouse = InputPosition - Card.OriginalPosition;
     }
 
     protected virtual void OnEndDrag(PointerEventData evt)

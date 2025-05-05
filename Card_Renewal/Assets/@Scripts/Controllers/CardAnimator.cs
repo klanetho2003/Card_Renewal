@@ -3,6 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using static Define;
 
 public interface ICardAnimator
@@ -53,18 +54,18 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
     {
         _tiltStartOffset = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
 
-        PlayTilt();
+        PlayTilt(_tilt.maxAngle, _tilt.maxAngle);
 
         MoveTo(_owner.SystemRectTransform, _owner.Card.OriginalPosition, isRayCast: false);
     }
 
-    private void PlayTilt()
+    private void PlayTilt(float destAngle_X, float destAngle_Y)
     {
         StopTilt();
-        _cotilt = _owner.StartCoroutine(CoTilt());
+        _cotilt = _owner.StartCoroutine(CoTilt(destAngle_X, destAngle_Y));
     }
 
-    IEnumerator CoTilt()
+    IEnumerator CoTilt(float destAngle_X, float destAngle_Y)
     {
         while (true)
         {
@@ -75,15 +76,32 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
             float newX = 0;
             float newY = 0;
             Vector3 euler = _imageRect.eulerAngles;
-            if (_owner.Card.CardState == ECardState.Idle)
+
+            switch (_owner.Card.CardState)
             {
-                newX = Mathf.LerpAngle(euler.x, sin * _tilt.maxAngle, _tilt.lerpSpeed * Time.deltaTime);
-                newY = Mathf.LerpAngle(euler.y, cos * _tilt.maxAngle, _tilt.lerpSpeed * Time.deltaTime);
-            }
-            else
-            {
-                newX = Mathf.LerpAngle(euler.x, sin * _tilt.hsMaxAngle, _tilt.hsMaxAngle * Time.deltaTime);
-                newY = Mathf.LerpAngle(euler.y, cos * _tilt.hsMaxAngle, _tilt.hsMaxAngle * Time.deltaTime);
+                case ECardState.Idle:
+                case ECardState.PointDown:
+                case ECardState.Select:
+                case ECardState.Moving:
+                    {
+                        newX = Mathf.LerpAngle(euler.x, sin * destAngle_X, _tilt.lerpSpeed * Time.deltaTime);
+                        newY = Mathf.LerpAngle(euler.y, cos * destAngle_Y, _tilt.lerpSpeed * Time.deltaTime);
+                    }
+                    break;
+                case ECardState.Hover:
+                    {
+                        Vector2 mousePos = Mouse.current.position.ReadValue();
+                        Vector2 worldPos = _imageRect.position;
+
+                        Vector2 dir = (worldPos - mousePos).normalized;
+
+                        float tiltX = Mathf.Clamp(dir.y * _tilt.maxAngle, -_tilt.maxAngle, _tilt.maxAngle);
+                        float tiltY = Mathf.Clamp(dir.x * _tilt.maxAngle, -_tilt.maxAngle, _tilt.maxAngle);
+
+                        newX = Mathf.LerpAngle(euler.x, tiltX, _tilt.lerpSpeed * Time.deltaTime);
+                        newY = Mathf.LerpAngle(euler.y, tiltY, _tilt.lerpSpeed * Time.deltaTime);
+                    }
+                    break;
             }
 
             _imageRect.eulerAngles = new Vector3(newX, newY, _imageRect.eulerAngles.z);
@@ -103,7 +121,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
         .DOPunchRotation(Vector3.forward * _hover.hoverPunchAngle, _hover.hoverTransition, 20, 1)
         .OnComplete(() =>
         {
-            PlayTilt();
+            PlayTilt(_tilt.maxAngle, _tilt.maxAngle);
         });
     }
     #endregion
@@ -116,7 +134,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
                 OnComplete(() =>
                 {
                     if (_owner.Card.CardState == ECardState.PointDown)
-                        PlayTilt();
+                        PlayTilt(_tilt.hsMaxAngle, _tilt.hsMaxAngle);
                 });
 
         _shadowRect.localPosition = _originalShadowPos + (-Vector3.up * _click.shadowOffset);
@@ -129,7 +147,16 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
         _cardRect.localPosition += (_cardRect.up * _click.selectPositionY_Offset);
 
         Sequence selectSequence = DOTween.Sequence();
+
+        MoveTo(_owner.SystemRectTransform, _owner.Card.OriginalPosition, isRayCast: false);
+
         selectSequence
+            .OnUpdate(() =>
+            {
+                // 이동 중에 Mouse로 격추했을 때 제자리로 돌아간 뒤에 Play Select Animation
+                if (Util.IsMagnitudeEqual(_owner.SystemRectTransform.position, _owner.TargetPos, EPS: 0.9f) == false)
+                    _owner.SystemRectTransform.position = Vector3.Lerp(_owner.SystemRectTransform.position, _owner.TargetPos, _move.followLerpSpeed * Time.deltaTime);
+            })
             .Append(_imageRect.DOPunchPosition(_cardRect.up * _click.selectPunchAmount, _click.scaleTransition))
             .Join(_imageRect.DOPunchRotation(Vector3.forward * (_hover.hoverPunchAngle / 2), _hover.hoverTransition, 20, 1))
             .OnComplete(() =>
@@ -138,7 +165,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
                 _cardRect.DOScale(Vector3.one, _hover.scaleDuration).SetEase(Ease.OutBack)
                     .OnComplete(() =>
                     {
-                        PlayTilt();
+                        PlayTilt(_tilt.hsMaxAngle, _tilt.hsMaxAngle);
                     });
             });
 
@@ -149,7 +176,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
     #region Play Moving
     public void PlayMoving()
     {
-        PlayTilt();
+        PlayTilt(_tilt.hsMaxAngle, _tilt.hsMaxAngle);
 
         PlayMovingUpdate();
     }
@@ -164,7 +191,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
         _coRotationUpdate = _owner.StartCoroutine(CoCardRotationUpdate());
         _coPositionUpdate = _owner.StartCoroutine(CoCardFollowPosition());
     }
-    const float followLerpSpeed = 10f;
+
     IEnumerator CoCardRotationUpdate()
     {
         Vector3 lastInputPos = _owner.InputPosition;
@@ -222,7 +249,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
     {
         while (true)
         {
-            rect.position = Vector3.Lerp(rect.position, DestPos, followLerpSpeed * Time.deltaTime);
+            rect.position = Vector3.Lerp(rect.position, DestPos, _move.followLerpSpeed * Time.deltaTime);
 
             yield return null;
 
@@ -237,7 +264,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
             _owner.SystemRectTransform.position = Vector3.Lerp(
                 _owner.SystemRectTransform.position,
                 _owner.TargetPos,
-                followLerpSpeed * Time.deltaTime);
+                _move.followLerpSpeed * Time.deltaTime);
 
             yield return null;
 

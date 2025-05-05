@@ -96,7 +96,7 @@ public class UI_GameScenePVP_Card : UI_GameScene_CardBase<PvpCard>
     {
         base.OnDrag(evt);
 
-        _moveDir = MovementByMouse.normalized;
+        _moveDir = (InputPosition - (Vector2)ImageRectTransform.position).normalized;
     }
 
     protected override void OnEndDrag(PointerEventData evt)

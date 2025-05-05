@@ -9,6 +9,9 @@ public class MoveSetting : ScriptableObject
     [Header("Card 기울림 민감도")]
     public float baseSensitivity = 100f;
 
+    [Header("Card 기본 이동 속도")]
+    public float followLerpSpeed = 10f;
+
     [Header("Card 최저 이동 속도")]
     public float minLerpSpeed = 1f;
 

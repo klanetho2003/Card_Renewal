@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 
-public class UI_EventHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class UI_EventHandler : MonoBehaviour,   IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler,
+                                                IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public event Action<PointerEventData> OnPointerEnterHandler = null;
     public event Action<PointerEventData> OnPointerExitHandler = null;
