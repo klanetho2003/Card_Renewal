@@ -33,9 +33,8 @@ public class ShaderCode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         // Get the current rotation as a quaternion
-        Quaternion currentRotation = transform.parent.localRotation;
+        Quaternion currentRotation = transform.localRotation;
 
         // Convert the quaternion to Euler angles
         Vector3 eulerAngles = currentRotation.eulerAngles;
