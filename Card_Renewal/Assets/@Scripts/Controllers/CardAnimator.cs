@@ -158,6 +158,8 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
     public Coroutine _coPositionUpdate;
     public void PlayMovingUpdate()
     {
+        _shadowRect.localPosition = _originalShadowPos + (-Vector3.up * _click.shadowOffset);
+
         StopMovingUpdate();
         _coRotationUpdate = _owner.StartCoroutine(CoCardRotationUpdate());
         _coPositionUpdate = _owner.StartCoroutine(CoCardFollowPosition());

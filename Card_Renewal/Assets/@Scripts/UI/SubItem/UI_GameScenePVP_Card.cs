@@ -90,7 +90,7 @@ public class UI_GameScenePVP_Card : UI_GameScene_CardBase<PvpCard>
         base.OnBeginDrag(evt);
     }
 
-    Vector3 _moveDir = Vector3.zero;
+    Vector2 _moveDir = Vector2.zero;
     PvpCard _swapTarget = null;
     protected override void OnDrag(PointerEventData evt)
     {

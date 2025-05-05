@@ -17,10 +17,16 @@ public class CardBase
 
     public ETeamColor TeamColor { get; protected set; } = ETeamColor.None;
 
-    public int Order { get; set; }
+    private int _order = 0;
+    public int Order
+    {
+        get { return _order/* + 1*/; }
+        set { _order = value; }
+    }
+
     public bool IsSelected { get; set; } = false;
 
-    public Vector3 OriginalPosition { get; set; }
+    public Vector2 OriginalPosition { get; set; }
 
     public event Action<ECardState> OnStateChanged;
 

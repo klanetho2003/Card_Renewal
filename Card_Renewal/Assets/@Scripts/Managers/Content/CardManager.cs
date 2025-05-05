@@ -45,7 +45,7 @@ public class CardManager
         SwapCards(MatchCards, selected, target, updateBoth);
     }
 
-    private void SwapCards<TCard, TUI>(List<TCard> list, TUI selected, TUI target, bool updateBothPositions) where TCard : CardBase where TUI : UI_GameScene_CardBase<TCard>
+    private void SwapCards<TCard, TUI>(List<TCard> list, TUI selected, TUI target, bool updateBoth) where TCard : CardBase where TUI : UI_GameScene_CardBase<TCard>
     {
         if (Util.IsMagnitudeEqual(selected.Card.OriginalPosition, target.Card.OriginalPosition))
             return;
@@ -59,14 +59,19 @@ public class CardManager
 
         // Card가 지닌 순서 Data Swap
         (selected.Card.Order, target.Card.Order) = (idxB, idxA);
+        target.SetCanvas(target.CardCanvas, target.Card.Order);
 
         // Card가 지닌 위치값 Swap
         (selected.Card.OriginalPosition, target.Card.OriginalPosition) =
             (target.Card.OriginalPosition, selected.Card.OriginalPosition);
 
-        // UI Position 갱신
-        if (updateBothPositions)
+        // UI 갱신
+        if (updateBoth)
+        {
             selected.UpdatePositionFromCard();
+            selected.SetCanvas(selected.CardCanvas, selected.Card.Order);
+        }
+
         target.UpdatePositionFromCard();
     }
     #endregion

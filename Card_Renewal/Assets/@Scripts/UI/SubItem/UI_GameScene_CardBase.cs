@@ -23,8 +23,12 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     protected enum Images
     {
         TouchArea,
-        Card,
         CardImage,
+    }
+
+    protected enum Canvases
+    {
+        Card,
     }
     #endregion
 
@@ -32,7 +36,9 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     protected CardManager _cardManager { get { return Managers.CardManager; } }
 
-    public Vector3 TargetPos { get; protected set; } = Vector3.zero;
+    public Vector2 TargetPos { get; protected set; } = Vector2.zero;
+
+    public Canvas CardCanvas { get; protected set; }    // System적으로 사용되는 Rect - ex 카드 Swap
 
     public RectTransform SystemRectTransform { get; protected set; }    // System적으로 사용되는 Rect - ex 카드 Swap
     public RectTransform CardRectTransform { get; protected set; }      // ImageRectTransform & ShadowRectTransform 둘 다
@@ -67,6 +73,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         BindObjects(typeof(GameObjects));
         BindButtons(typeof(Buttons));
         BindImages(typeof(Images));
+        Bind<Canvas>(typeof(Canvases));
         #endregion
 
         #region Event Bind
@@ -87,7 +94,7 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
     public virtual void SetInfo(T card)
     {
-        transform.localScale = Vector3.one;
+        transform.localScale = Vector2.one;
 
         Card = card;
 
@@ -97,6 +104,10 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         // SetActive ---1프레임_뒤에--->  Position Setting // GridLayGroup 초기화 이슈 때문,
         gameObject.SetActive(true);
         StartCoroutine(CaptureOriginalNextFrame());
+
+        // Set Canvas
+        CardCanvas = Get<Canvas>((int)Canvases.Card);
+        SetCanvas(CardCanvas, Card.Order);
 
         // Caching
         CardRectTransform = GetObject((int)GameObjects.Card).GetComponent<RectTransform>();
@@ -189,9 +200,9 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         Debug.Log("On Pointer Exit");
     }
 
-    public Vector3 MovementByMouse { get; protected set; } = Vector3.zero;
-    public Vector3 InputPosition { get; protected set; } = Vector3.zero;
-    protected Vector3 _dragOffset;
+    public Vector2 MovementByMouse { get; protected set; } = Vector2.zero;
+    public Vector2 InputPosition { get; protected set; } = Vector2.zero;
+    protected Vector2 _dragOffset;
     private float _pointerDownTime;
     private bool _IsLongPress = false;
     protected virtual void OnPointerDown(PointerEventData evt)
@@ -203,6 +214,8 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
         _dragOffset = ImageRectTransform.position - (Vector3)evt.position;
 
         _pointerDownTime = Time.time;
+
+        SetCanvas(CardCanvas);
     }
 
     protected virtual void OnPointerUp(PointerEventData evt)
@@ -235,6 +248,8 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         Card.CardState = ECardState.Idle;
         _IsLongPress = false;
+
+        SetCanvas(CardCanvas, Card.Order);
 
         Debug.Log("On Pointer Up");
     }
@@ -270,8 +285,8 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
 
         SetRayCastTargrt(false);
 
-        TargetPos = (Vector3)evt.position + _dragOffset;
-        InputPosition = (Vector3)evt.position;
+        TargetPos = evt.position + _dragOffset;
+        InputPosition = evt.position;
         MovementByMouse = InputPosition - Card.OriginalPosition;
     }
 
@@ -285,6 +300,12 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     public void SetRayCastTargrt(bool setBool)
     {
         GetImage((int)Images.TouchArea).raycastTarget = setBool;
+    }
+
+    public void SetCanvas(Canvas canvas, int order = 999, bool isSorting = true)
+    {
+        canvas.overrideSorting = isSorting;
+        canvas.sortingOrder = order;
     }
     #endregion
 }
