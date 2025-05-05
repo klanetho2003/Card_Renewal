@@ -147,7 +147,11 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     protected virtual bool TrySwap(bool isBoth)
     {
         if (Managers.CardManager.HoldCard != Card)
+        {
+            Debug.Log($"No Hold : {Card.CardState}");
             return false;
+        }
+            
         // 이동 여부 Check
         if (Util.IsMagnitudeEqual(Card.OriginalPosition, SystemRectTransform.position))
             return false;
@@ -254,18 +258,12 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     {
         Debug.Log("On Click");
 
-        if (Card.IsSelected == false)
-        {
-            Card.CardState = ECardState.Select;
-            Card.IsSelected = true;
-            return;
-        }
-
-        // Card.IsSelected == true
-        {
-            Card.IsSelected = false;
-            Card.CardState = ECardState.Idle;
-        }
+        ToggleSelect();
+    }
+    void ToggleSelect()
+    {
+        Card.IsSelected = !Card.IsSelected;
+        Card.CardState = Card.IsSelected ? ECardState.Select : ECardState.Idle;
     }
 
     protected virtual void OnBeginDrag(PointerEventData evt)
@@ -304,4 +302,3 @@ public class UI_GameScene_CardBase<T> : UI_Base where T : CardBase
     }
     #endregion
 }
-

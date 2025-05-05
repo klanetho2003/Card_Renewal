@@ -13,11 +13,13 @@ public interface ILoader<Key, Value>
 
 public class DataManager
 {
+    public Dictionary<int, Data.InitGameData> InitGameDic { get; private set; } = new Dictionary<int, Data.InitGameData>();
     public Dictionary<int, Data.CardData> CardDic { get; private set; } = new Dictionary<int, Data.CardData>();
     public Dictionary<int, Data.TeamData> TeamDic { get; private set; } = new Dictionary<int, Data.TeamData>();
 
     public void Init()
     {
+        InitGameDic = LoadJson<Data.InitGameDataLoader, int, Data.InitGameData>("InitGameData").MakeDict();
         CardDic = LoadJson<Data.CardDataLoader, int, Data.CardData>("CardData").MakeDict();
         TeamDic = LoadJson<Data.TeamDataLoader, int, Data.TeamData>("TeamData").MakeDict();
     }

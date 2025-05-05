@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Spade
+  m_EditorClassIdentifier: 
+  m_GroupName: Spade
+  m_GUID: 903b4a09b2378e94db71bac442409378
+  m_SerializeEntries:
+  - m_GUID: 1e3bd26486b21c24cb3f996fe9b7bc42
+    m_Address: Spade_9.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 289222d0635d8684280c6acec039ec59
+    m_Address: Spade_K_13.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47a4ef11cef68b34c945e888ae1bd4b3
+    m_Address: Spade_10.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 62c5fc56ab3a8c746ba4a695dfbaa7b0
+    m_Address: Spade_J_11.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6b904621d99e38d49a0036e051444229
+    m_Address: Spade_5.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77c578967e3a78e4988c95699d9bae3a
+    m_Address: Spade_8.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82efb19118fefc04091ab4010dcd004b
+    m_Address: Spade_Q_12.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a308fa96c86e0254eb8aafaa2cf33bef
+    m_Address: Spade_6.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc4f374a1888d1942b67383ac3ee9b0e
+    m_Address: Spade_1.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7798e8fd4c66f34cb4a4019d8654ff9
+    m_Address: Spade_7.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f49acdc4f394f7141a6a87bad10aedd6
+    m_Address: Spade_4.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f85e97d4bbc83594cbcb2fbe9a28ce52
+    m_Address: Spade_2.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fedbc367e14b8e141ad84062eb2262ea
+    m_Address: Spade_3.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 048622a9cdb6b5e4499f42640812c0b8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d74fa6a16f92b8e46845c18d4a65e9d4, type: 2}
+    - {fileID: 11400000, guid: be9fd5261fb40c245878121e08049af0, type: 2}

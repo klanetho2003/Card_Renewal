@@ -9,13 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a30c683b1331814fbcbf8367a868f08, type: 3}
-  m_Name: MoveSetting
+  m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
+  m_Name: Joker_ContentUpdateGroupSchema
   m_EditorClassIdentifier: 
-  maxZRotation: 60
-  baseSensitivity: 100
-  followLerpSpeed: 10
-  minLerpSpeed: 1
-  maxLerpSpeed: 25
-  restoreLerpSpeed: 8
-  minMoveThreshold: 0.1
+  m_Group: {fileID: 11400000, guid: 910bee05caf981f479da510c8a85a537, type: 2}
+  m_StaticContent: 0

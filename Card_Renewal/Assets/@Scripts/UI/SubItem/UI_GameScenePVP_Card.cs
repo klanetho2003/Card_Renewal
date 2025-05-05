@@ -72,11 +72,6 @@ public class UI_GameScenePVP_Card : UI_GameScene_CardBase<PvpCard>
 
     protected override void OnPointerUp(PointerEventData evt)
     {
-        if (Util.IsMagnitudeEqual(Card.OriginalPosition, SystemRectTransform.position))
-        {
-            Debug.Log("On Up Button");
-        }
-
         base.OnPointerUp(evt);
     }
 

@@ -24,8 +24,11 @@ public class UI_GameScene : UI_Scene
 
     const int MAX_ITEM_COUNT = 30;
 
-    List<UI_GameScenePVP_Card> _cardUIList_PVP = new List<UI_GameScenePVP_Card>();
-    List<UI_GameSceneMatch_Card> _cardUIList_MATCH = new List<UI_GameSceneMatch_Card>();
+    private List<UI_GameScenePVP_Card> _cardUIList_PVP = new List<UI_GameScenePVP_Card>();
+    private List<UI_GameSceneMatch_Card> _cardUIList_MATCH = new List<UI_GameSceneMatch_Card>();
+
+    private GameObject _pvpCardLIstParent = null;
+    private GameObject _matchCardLIstParent = null;
 
     public override bool Init()
     {
@@ -33,18 +36,30 @@ public class UI_GameScene : UI_Scene
             return false;
 
         // Bind
-        // BindTexts(typeof(Texts));
         BindObjects(typeof(GameObjects));
 
         // Event Bind
-        // GetButton((int)Buttons.AddCardButton).gameObject.BindEvent(OnClickAddCardButton);
         Managers.CardManager.OnChangePvpCardCount += Refresh;
 
-        // Instantiate Pre & Cache
-        InitializeCardUI<UI_GameScenePVP_Card, PvpCard>(_cardUIList_PVP, GetObject((int)GameObjects.CardsList_PVP).transform);
-        InitializeCardUI<UI_GameSceneMatch_Card, MatchCard>(_cardUIList_MATCH, GetObject((int)GameObjects.CardsList_MATCH).transform);
+        // Cache
+        _pvpCardLIstParent = GetObject((int)GameObjects.CardsList_PVP);
+        _matchCardLIstParent = GetObject((int)GameObjects.CardsList_MATCH);
 
-        Refresh();
+        // Set Card Size
+        {
+            _pvpCardLIstParent.GetComponent<GridLayoutGroup>().cellSize 
+                = new Vector2(
+                    Managers.CardManager.InitGameData.PVPCardSizeX,
+                    Managers.CardManager.InitGameData.PVPCardSizeY);
+            _matchCardLIstParent.GetComponent<GridLayoutGroup>().cellSize
+                = new Vector2(
+                Managers.CardManager.InitGameData.MatchCardSizeX,
+                Managers.CardManager.InitGameData.MatchCardSizeY);
+        }
+
+        // Instantiate Pre & Cache
+        InitializeCardUI<UI_GameScenePVP_Card, PvpCard>(_cardUIList_PVP, _pvpCardLIstParent.transform);
+        InitializeCardUI<UI_GameSceneMatch_Card, MatchCard>(_cardUIList_MATCH, _matchCardLIstParent.transform);
 
         return true;
     }
@@ -84,24 +99,5 @@ public class UI_GameScene : UI_Scene
                 uiCardList[i].gameObject.SetActive(false);
             }
         }
-    }
-
-    private float _elapsedTime = 0.0f;
-    private float _updateInterval = 1.0f;
-    private void Update()
-    {
-        #region FPS Viewer
-        _elapsedTime += Time.deltaTime;
-
-        if (_elapsedTime >= _updateInterval)
-        {
-            float fps = 1.0f / Time.deltaTime;
-            float ms = Time.deltaTime * 1000.0f;
-            string text = string.Format("{0:N1} FPS ({1:N1}ms)", fps, ms);
-            // _cacheFPSViewerText.text = text;
-
-            _elapsedTime = 0;
-        }
-        #endregion
     }
 }

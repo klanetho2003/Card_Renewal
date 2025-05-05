@@ -4,223 +4,223 @@
       "TemplateId": 11,
       "CardShape": 12,
       "CardNUm": 1,
-      "FrontSpriteName": "to do"
+      "FrontSpriteName": "Club_1.sprite"
     },
     {
       "TemplateId": 12,
       "CardShape": 12,
       "CardNUm": 2,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_2.sprite"
     },
     {
       "TemplateId": 13,
       "CardShape": 12,
       "CardNUm": 3,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_3.sprite"
     },
     {
       "TemplateId": 14,
       "CardShape": 12,
       "CardNUm": 4,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_4.sprite"
     },
     {
       "TemplateId": 15,
       "CardShape": 12,
       "CardNUm": 5,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_5.sprite"
     },
     {
       "TemplateId": 16,
       "CardShape": 12,
       "CardNUm": 6,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_6.sprite"
     },
     {
       "TemplateId": 17,
       "CardShape": 12,
       "CardNUm": 7,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_7.sprite"
     },
     {
       "TemplateId": 18,
       "CardShape": 12,
       "CardNUm": 8,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_8.sprite"
     },
     {
       "TemplateId": 19,
       "CardShape": 12,
       "CardNUm": 9,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_9.sprite"
     },
     {
       "TemplateId": 20,
       "CardShape": 12,
       "CardNUm": 10,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_10.sprite"
     },
     {
       "TemplateId": 21,
       "CardShape": 12,
       "CardNUm": 11,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_J_11.sprite"
     },
     {
       "TemplateId": 22,
       "CardShape": 12,
       "CardNUm": 12,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_Q_12.sprite"
     },
     {
       "TemplateId": 23,
       "CardShape": 12,
       "CardNUm": 13,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Club_K_13.sprite"
     },
     {
       "TemplateId": 31,
       "CardShape": 34,
       "CardNUm": 1,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_1.sprite"
     },
     {
       "TemplateId": 32,
       "CardShape": 34,
       "CardNUm": 2,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_2.sprite"
     },
     {
       "TemplateId": 33,
       "CardShape": 34,
       "CardNUm": 3,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_3.sprite"
     },
     {
       "TemplateId": 34,
       "CardShape": 34,
       "CardNUm": 4,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_4.sprite"
     },
     {
       "TemplateId": 35,
       "CardShape": 34,
       "CardNUm": 5,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_5.sprite"
     },
     {
       "TemplateId": 36,
       "CardShape": 34,
       "CardNUm": 6,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_6.sprite"
     },
     {
       "TemplateId": 37,
       "CardShape": 34,
       "CardNUm": 7,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_7.sprite"
     },
     {
       "TemplateId": 38,
       "CardShape": 34,
       "CardNUm": 8,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_8.sprite"
     },
     {
       "TemplateId": 39,
       "CardShape": 34,
       "CardNUm": 9,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_9.sprite"
     },
     {
       "TemplateId": 40,
       "CardShape": 34,
       "CardNUm": 10,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_10.sprite"
     },
     {
       "TemplateId": 41,
       "CardShape": 34,
       "CardNUm": 11,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_J_11.sprite"
     },
     {
       "TemplateId": 42,
       "CardShape": 34,
       "CardNUm": 12,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_Q_12.sprite"
     },
     {
       "TemplateId": 43,
       "CardShape": 34,
       "CardNUm": 13,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Diamond_K_13.sprite"
     },
     {
       "TemplateId": 51,
       "CardShape": 56,
       "CardNUm": 1,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_1.sprite"
     },
     {
       "TemplateId": 52,
       "CardShape": 56,
       "CardNUm": 2,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_2.sprite"
     },
     {
       "TemplateId": 53,
       "CardShape": 56,
       "CardNUm": 3,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_3.sprite"
     },
     {
       "TemplateId": 54,
       "CardShape": 56,
       "CardNUm": 4,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_4.sprite"
     },
     {
       "TemplateId": 55,
       "CardShape": 56,
       "CardNUm": 5,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_5.sprite"
     },
     {
       "TemplateId": 56,
       "CardShape": 56,
       "CardNUm": 6,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_6.sprite"
     },
     {
       "TemplateId": 57,
       "CardShape": 56,
       "CardNUm": 7,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_7.sprite"
     },
     {
       "TemplateId": 58,
       "CardShape": 56,
       "CardNUm": 8,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_8.sprite"
     },
     {
       "TemplateId": 59,
       "CardShape": 56,
       "CardNUm": 9,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_9.sprite"
     },
     {
       "TemplateId": 60,
       "CardShape": 56,
       "CardNUm": 10,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_10.sprite"
     },
     {
       "TemplateId": 61,
       "CardShape": 56,
       "CardNUm": 11,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_J_11.sprite"
     },
     {
       "TemplateId": 62,
@@ -232,73 +232,73 @@
       "TemplateId": 63,
       "CardShape": 56,
       "CardNUm": 13,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Heart_K_13.sprite"
     },
     {
       "TemplateId": 71,
       "CardShape": 78,
       "CardNUm": 1,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_1.sprite"
     },
     {
       "TemplateId": 72,
       "CardShape": 78,
       "CardNUm": 2,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_2.sprite"
     },
     {
       "TemplateId": 73,
       "CardShape": 78,
       "CardNUm": 3,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_3.sprite"
     },
     {
       "TemplateId": 74,
       "CardShape": 78,
       "CardNUm": 4,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_4.sprite"
     },
     {
       "TemplateId": 75,
       "CardShape": 78,
       "CardNUm": 5,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_5.sprite"
     },
     {
       "TemplateId": 76,
       "CardShape": 78,
       "CardNUm": 6,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_6.sprite"
     },
     {
       "TemplateId": 77,
       "CardShape": 78,
       "CardNUm": 7,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_7.sprite"
     },
     {
       "TemplateId": 78,
       "CardShape": 78,
       "CardNUm": 8,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_8.sprite"
     },
     {
       "TemplateId": 79,
       "CardShape": 78,
       "CardNUm": 9,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_9.sprite"
     },
     {
       "TemplateId": 80,
       "CardShape": 78,
       "CardNUm": 10,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_10.sprite"
     },
     {
       "TemplateId": 81,
       "CardShape": 78,
       "CardNUm": 11,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_J_11.sprite"
     },
     {
       "TemplateId": 82,
@@ -310,7 +310,13 @@
       "TemplateId": 83,
       "CardShape": 78,
       "CardNUm": 13,
-      "FrontSpriteName": null
+      "FrontSpriteName": "Spade_K_13.sprite"
+    },
+    {
+      "TemplateId": 999,
+      "CardShape": 999,
+      "CardNUm": 999,
+      "FrontSpriteName": "Joker_Red_Skeleton.sprite"
     }
   ]
 }

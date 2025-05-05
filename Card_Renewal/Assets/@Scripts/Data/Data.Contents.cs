@@ -43,6 +43,37 @@ namespace Data
     }
     #endregion
 
+    #region Init Game
+    [Serializable]
+    public class InitGameData
+    {
+        public int TemplateId;
+
+        public List<int> PVPCardDataIdList;
+        public int PVPCardCount;
+        public int PVPCardSizeX;
+        public int PVPCardSizeY;
+
+        public List<int> MatchCardDataIdList;
+        public int MatchCardCount;
+        public int MatchCardSizeX;
+        public int MatchCardSizeY;
+    }
+
+    [Serializable]
+    public class InitGameDataLoader : ILoader<int, InitGameData>
+    {
+        public List<InitGameData> InitGameDatas = new List<InitGameData>();
+        public Dictionary<int, InitGameData> MakeDict()
+        {
+            Dictionary<int, InitGameData> dict = new Dictionary<int, InitGameData>();
+            foreach (InitGameData data in InitGameDatas)
+                dict.Add(data.TemplateId, data);
+            return dict;
+        }
+    }
+    #endregion
+
     #region Card
     [Serializable]
     public class CardData

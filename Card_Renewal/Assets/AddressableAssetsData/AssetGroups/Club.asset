@@ -10,49 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Card_Light_Sprite
+  m_Name: Club
   m_EditorClassIdentifier: 
-  m_GroupName: Card_Light_Sprite
-  m_GUID: dbb3b765af6ed6d4082f030717c78742
+  m_GroupName: Club
+  m_GUID: 94d6fe2dbf191f340af8bc7793979a94
   m_SerializeEntries:
-  - m_GUID: 289222d0635d8684280c6acec039ec59
-    m_Address: Spade_K_13.sprite
+  - m_GUID: 029f0ec2250a987458f50935d7d958c4
+    m_Address: Club_5.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2ee35550ab9112145bf7f2e329bdb691
-    m_Address: Heart_K_13.sprite
+  - m_GUID: 10947eb7ccad876438362a62a90d7996
+    m_Address: Club_9.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 32463290e03b247439782203ac565970
-    m_Address: Diamond_J_11.sprite
+  - m_GUID: 14cf4f48e69bf9646b073cb4ee9babc0
+    m_Address: Club_7.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3c82e22bfa4e4f24692dd7ce521c24ca
-    m_Address: Heart_Q_12.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 54f5ccf99defa254eb1bd58b55cc8bca
-    m_Address: Diamond_Q_12.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 62c5fc56ab3a8c746ba4a695dfbaa7b0
-    m_Address: Spade_J_11.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 69a4d2fa6e4467b4bab7f8e8a14103f0
-    m_Address: Diamond_K_13.sprite
+  - m_GUID: 6a5ee6d5b1aae88498348a0a1d0336cf
+    m_Address: Club_8.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -63,8 +45,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 82efb19118fefc04091ab4010dcd004b
-    m_Address: Spade_Q_12.sprite
+  - m_GUID: 782209fd3cc87734aa4f6cf43b2f6825
+    m_Address: Club_2.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80b180bc4c9aa4341bbf30eafe1a5223
+    m_Address: Club_6.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b9f23d9f7d5b694c83ee837cac8d575
+    m_Address: Club_4.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -75,14 +69,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a4f14059d38fc3744af8cdf71f4503a2
-    m_Address: Joker_Red.sprite
+  - m_GUID: a6f81a2f6c4ecb74a83002b3de04236a
+    m_Address: Club_10.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bf062147708dec64191092cd4eea5eaf
-    m_Address: Joker_Black.sprite
+  - m_GUID: b3b5cfcd1be680249b415c8a6f45eb04
+    m_Address: Club_1.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd9ea71be2eca9347ba56403fa9c7d68
+    m_Address: Club_3.sprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - PreLoad
@@ -93,15 +93,9 @@ MonoBehaviour:
     m_SerializedLabels:
     - PreLoad
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ecd30cbafcc70884fb7ece2f52e13d34
-    m_Address: Heart_J_11.sprite
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - PreLoad
-    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 048622a9cdb6b5e4499f42640812c0b8, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 456f042a72a6b4c4bad17f0382288550, type: 2}
-    - {fileID: 11400000, guid: 97884500024c93244acebe2fa27d855b, type: 2}
+    - {fileID: 11400000, guid: c0e40bd94fb7bce4bba0840b206887ef, type: 2}
+    - {fileID: 11400000, guid: cf1c365c510f4f2498ebca6ed2bd2409, type: 2}

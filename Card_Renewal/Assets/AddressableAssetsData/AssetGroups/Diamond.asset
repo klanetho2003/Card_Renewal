@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Diamond
+  m_EditorClassIdentifier: 
+  m_GroupName: Diamond
+  m_GUID: db51217a7006d2e4991c6d8842879637
+  m_SerializeEntries:
+  - m_GUID: 12dea331a0f170144821f6b275c98e03
+    m_Address: Diamond_5.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 154c4d9f8d64f724eb3ecefe0c121b69
+    m_Address: Diamond_9.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32463290e03b247439782203ac565970
+    m_Address: Diamond_J_11.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41cacd648bfab66468e214b5a7faa348
+    m_Address: Diamond_3.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 443a431b9fcaf904cb5bc950465afe26
+    m_Address: Diamond_10.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54f5ccf99defa254eb1bd58b55cc8bca
+    m_Address: Diamond_Q_12.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56d312695791dc74483776156c87ed8a
+    m_Address: Diamond_6.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 69a4d2fa6e4467b4bab7f8e8a14103f0
+    m_Address: Diamond_K_13.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 84ea3fbdc3f632a49814ba58e337ef05
+    m_Address: Diamond_8.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 864da32dc0d00db4fb15d8f00dbc061d
+    m_Address: Diamond_2.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a20ebbbbf270f5c4a8d3fa12bac9a611
+    m_Address: Diamond_4.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b1fcce33c925f42459de39b1979a4658
+    m_Address: Diamond_7.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d71ec75204b6237459b30f73b61b5f31
+    m_Address: Diamond_1.sprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PreLoad
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 048622a9cdb6b5e4499f42640812c0b8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: f3589c8a6d8f18d48b5458f1f4a49d80, type: 2}
+    - {fileID: 11400000, guid: 82030f40075aaae46864ae2815cd8f69, type: 2}

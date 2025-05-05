@@ -58,7 +58,7 @@ public class Define
         Q = 12,
         K = 13,
 
-        Joker = 20
+        Joker = 999
     }
 
     public enum ECardShape
@@ -68,6 +68,8 @@ public class Define
         Diamond = 34,
         Heart = 56,
         Spade = 78,
+
+        Joker = 999
     }
 
     public enum ETeamColor

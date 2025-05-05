@@ -43,6 +43,8 @@ public class GameManager
     public ETeamColor PlayerTeamColor { get; set; } = ETeamColor.Red;
 
     #region Data - Init, Save, Load
+
+    // 진행에 따라 달라지는 Data
     GameSaveData _saveData = new GameSaveData();
     public GameSaveData SaveData { get { return _saveData; } set { _saveData = value; } }
 
@@ -61,16 +63,16 @@ public class GameManager
             return;
 
         // To Do : 패치에 Data들을 대처할 수 있도록 수정 -> Version 정보를 참조
-        var cards = Managers.Data.CardDic.Values.ToList();
-        foreach (CardData card in cards)
-        {
-            CardSaveData cardSaveData = new CardSaveData()
-            {
-                TemplateDataId = card.TemplateId,
-            };
-
-            SaveData.Cards.Add(cardSaveData);
-        }
+        // var cards = Managers.Data.CardDic.Values.ToList();
+        // foreach (CardData card in cards)
+        // {
+        //     CardSaveData cardSaveData = new CardSaveData()
+        //     {
+        //         TemplateDataId = card.TemplateId,
+        //     };
+        // 
+        //     SaveData.Cards.Add(cardSaveData);
+        // }
     }
 
     public void SaveGame()

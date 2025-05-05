@@ -52,7 +52,7 @@ public class UI_TitleScene : UI_Scene
                 if (Managers.Game.LoadGame() == false)
                 {
                     Managers.Game.InitGame();
-                    Managers.Game.SaveGame();
+                    // Managers.Game.SaveGame();
                 }
 
                 GetObject((int)GameObjects.TouchArea).gameObject.SetActive(true);

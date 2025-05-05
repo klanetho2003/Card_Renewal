@@ -1,0 +1,29 @@
+﻿{
+  "InitGameDatas": [
+    {
+      "TemplateId": 1,
+      "PVPCardDataIdList": [
+        62,
+        82,
+        999,
+        13,
+        17
+      ],
+      "PVPCardCount": 7,
+      "PVPCardSizeX": 340,
+      "PVPCardSizeY": 480,
+      "MatchCardDataIdList": [
+        22,
+        42,
+        999,
+        35,
+        40,
+        57,
+        72
+      ],
+      "MatchCardCount": 7,
+      "MatchCardSizeX": 340,
+      "MatchCardSizeY": 480
+    }
+  ]
+}

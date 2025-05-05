@@ -1,10 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data;
 using UnityEngine;
 using static Define;
 
 public class GameScene : BaseScene
 {
+    // Cache
+    private CardManager _cardManager { get { return Managers.CardManager; } }
+    private InitGameData _initGameData { get { return Managers.CardManager.InitGameData; } }
+
     public override bool Init()
     {
         if (!base.Init())
@@ -21,17 +27,17 @@ public class GameScene : BaseScene
     // To Do : InitGame Data Parsing
     private void InitializeCards()
     {
-        AddCards(Managers.CardManager.AddPvpCard, 3, TempCard_Heart_Q);
-        AddCards(Managers.CardManager.AddPvpCard, 4, TempCard_Spade_Q);
-
-        AddCards(Managers.CardManager.AddMatchCard, 2, TempCard_Heart_Q);
-        AddCards(Managers.CardManager.AddMatchCard, 5, TempCard_Spade_Q);
+        AddCards(_cardManager.AddPvpCard, _cardManager.GetPVPCardRandomId, _initGameData.PVPCardCount);
+        AddCards(_cardManager.AddMatchCard, _cardManager.GetMatchCardRandomId, _initGameData.MatchCardCount);
     }
 
-    private void AddCards(System.Action<int> addCardFunc, int count, int templateId)
+    private void AddCards(Action<int> addCardFunc, Func<int> getIdFunc, int count)
     {
         for (int i = 0; i < count; i++)
+        {
+            int templateId = getIdFunc.Invoke();
             addCardFunc.Invoke(templateId);
+        }
     }
 
     private void InitializeUI()

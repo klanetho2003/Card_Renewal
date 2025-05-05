@@ -1,22 +1,12 @@
 To Do List
 
-[ Animation 디벨롭 ]
-
-1.  Move 시 기울림
-2. Card Material Add
-3. Hover 시 기울림 (Update하나파고 Hover State일 떄 Mouse Event위치 기반으로 각도를움직이면 되지 않을까)
-
-
-[ Parsing ]
-- Card Spawn 개수 
--  Card Size
 
 
 
-그림자 배치
-Stop Tilt
+Excel 파싱.
 
-
+- Card 적용 가능한 리소스 개수 늘리기
+- 인게임 Card  개수 늘리기
 
 
 

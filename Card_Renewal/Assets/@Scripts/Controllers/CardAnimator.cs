@@ -118,7 +118,7 @@ public class CardAnimator<TUI, T> : ICardAnimator where TUI : UI_GameScene_CardB
             _cardRect.DOScale(_hover.scaleOnHover, _hover.scaleDuration).SetEase(Ease.OutBack);
 
         _imageRect
-        .DOPunchRotation(Vector3.forward * _hover.hoverPunchAngle, _hover.hoverTransition, 20, 1)
+        .DOPunchRotation(Vector3.forward * _hover.hoverPunchAngle, _hover.hoverTransition, 20, 2)
         .OnComplete(() =>
         {
             PlayTilt(_tilt.maxAngle, _tilt.maxAngle);

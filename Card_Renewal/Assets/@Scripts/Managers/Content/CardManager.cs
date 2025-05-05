@@ -7,6 +7,9 @@ using static Define;
 
 public class CardManager
 {
+    const int Current_InitGameData_Id = 1; // 하나밖에 없
+    public InitGameData InitGameData { get { return Managers.Data.InitGameDic[Current_InitGameData_Id]; } }
+
     public CardBase HoldCard { get; set; } = null; // Mouse로 Hold 중인 Card
 
     public List<PvpCard> PvpCards { get; } = new List<PvpCard>();
@@ -14,6 +17,20 @@ public class CardManager
 
     public event Action OnChangePvpCardCount;
     public event Action OnChangeMatchCardCount;
+
+    #region Get Card Template Id
+    public int GetPVPCardRandomId()
+    {
+        int index = UnityEngine.Random.Range(0, InitGameData.PVPCardDataIdList.Count);
+        return InitGameData.PVPCardDataIdList[index];
+    }
+
+    public int GetMatchCardRandomId()
+    {
+        int index = UnityEngine.Random.Range(0, InitGameData.MatchCardDataIdList.Count);
+        return InitGameData.MatchCardDataIdList[index];
+    }
+    #endregion
 
     #region Add Card
     public void AddPvpCard(int templateId)
